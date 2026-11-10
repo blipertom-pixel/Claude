@@ -31,3 +31,11 @@ Grundlage: Arbeit an echten Folien mit dem Nutzer (10. November 2026), Gestaltun
 - Master Playbook, Zurich-Schriften und Zurich-Piktogramme fehlen; im Lite-Modus sind Logo und Icons Ersatz.
 - Die Zentimeterwerte des Leitfadens sind noch nicht am Master kalibriert.
 - `fit_audit.py`, `brand_audit.py`, `verify.py`, `numtrace.py` brauchen die Bibliothek und liefen deshalb nicht.
+
+## Version 2.1 „Editorial“ (Feedback zu v3)
+Nutzer: „visuell macht das nichts her“, „hässliche Blöcke rechts“, „wieso ist immer unten dieser blaue Balken“, „ständig gleiche Layouts“,
+„dunkle Folien sollen generell nicht gebaut werden“, „billige Kästen“. Vorschlag des Nutzers: blaues Band in der Mitte mit weißen Kästen.
+- Neu: `scripts/editorial.py` (Band, schwebende weiße Karten, Kicker, große Zahlen, Schlusssatz mit Akzentstrich, Führungslinien).
+- `visual-system.md` und `slide-archetypes.md` neu geschrieben; 12 Formen, jede Folie mit eigener Form.
+- Referenz-Deck `examples/marktfokus_v4/`: Portfolio-Kreise, Kurve mit Tempo-Streifen, J-Kurve mit Ereigniszahl, Sensitivitätsraster,
+  Zahlenpaar mit Zufallsband, Kapital-Treppe, Band mit Karten. Inhalt und Modell wie v3.

@@ -35,7 +35,8 @@ Zeige dem Nutzer das Ghost Deck nur, wenn eine wesentliche Unklarheit besteht od
   Icons aus `assets/icons` (Phosphor, MIT). Schriftnamen bleiben Zurich Sans/Ogg, damit Originalschriften greifen, sobald installiert.
   Beim Übergang in den Master-Modus: Logo/Seitenzahl kommen aus dem Layout, Icons durch Zurich-Piktogramme gleicher Bedeutung ersetzen.
 
-Beispiel für ein vollständiges Deck in beiden Denk- und Bauschritten: `examples/marktfokus_v3/` (Modell, Build, Notizen je Folie).
+Gestaltung: **Bildsprache 2.1 „Editorial“** (`scripts/editorial.py`, `references/visual-system.md`): keine dunklen Folien, kein Band unten, keine Blöcke rechts, keine getönten Kästen, jede Folie mit eigener Form.
+Referenz-Deck: `examples/marktfokus_v4/` (aktuell). `examples/marktfokus_v3/` zeigt die ältere Gestaltung.
 
 ## Nicht verhandelbar
 
@@ -46,6 +47,7 @@ Beispiel für ein vollständiges Deck in beiden Denk- und Bauschritten: `example
 - **Frameworks strukturieren, sie stehen nie auf der Folie** (keine Labels „Situation/Komplikation“).
 - Echte Daten nur aus Quellen des Nutzers. Ohne Daten: fiktive Beispieldaten **kennzeichnen** oder `[DATA NEEDED: …]`.
 - Zurich-Textfarben laut `references/brand-colors.md`; Fotos nur als Kreis; kein AutoFit; Quelle auf jeder Folie mit Zahlen.
+- Keine dunklen Folien, kein Konsequenz-Band unten, keine Kennzahl-Blöcke rechts, keine getönten Kästen (Nutzer-Vorgabe 10.11.2026).
 - Vor Abgabe: `text_lint.py`, `check_readability.py`, `geometry_audit.py` (Master-Modus zusätzlich `verify.py`, `fit_audit.py`,
   `brand_audit.py`, `numtrace.py`) und **jede Folie im Render ansehen**. Grüne Audits beweisen keine gute Folie.
 

@@ -1,51 +1,55 @@
-# Gestaltungssystem 2.0 (Zurich-Stil, kritisch überarbeitet)
+# Gestaltungssystem 2.1 „Editorial“ (Zurich-Stil, nach Nutzer-Feedback vom 10.11.2026)
 
-Was bleibt (vom Nutzer bestätigt): weißer Grund, Titel links in Zurich Blue (Light), Kapitel-Pille, getönte Karten, dunkles Band,
-Piktogramme in Scheiben, Ogg für große Zahlen, Kreisfotos, Quelle unten.
-Was sich ändert (Befund aus Review der Decks v1 bis v2): **weniger Rahmen, mehr Beleg.**
+## 0. Verbindliche Vorgaben des Nutzers
+- **Keine dunklen Folien** (kein Dark-Blue-Grund, auch nicht für Titel oder Entscheidung).
+- **Kein Balken unten auf jeder Folie.** Das dunkle Konsequenz-Band ist abgeschafft.
+- **Keine Kennzahl-Blöcke rechts** neben dem Diagramm.
+- **Keine getönten oder „billigen“ Kästen** (hellblaue Rundrechtecke, Rahmen um Inhalte).
+- **Nicht ständig das gleiche Layout:** jede Folie bekommt die Form, die ihre Aussage zeigt.
+- Erlaubt und erwünscht: **ein Zurich-Blue-Band quer durch die Mitte mit weißen, leicht schwebenden Karten** (Titel, Antwort zuerst, Entscheidung).
+- Icons sind erwünscht (lockern auf), mit fester Bedeutung.
 
-## 1. Raster (16:9, Zoll)
-Rand 0,4 · Inhaltsbreite 12,53 · Spaltenabstand 0,25 · Inhalt 1,5 bis 6,0 · Band 6,14 · Quelle 6,93.
-Teilungen: voll · 2/3 + 1/3 (8,2 + 4,08) · 1/2 + 1/2 · 1/3 × 3. Funktionen `cols(n)`, `split(8.2)`.
+## 1. Haltung
+Ein Bild je Folie, groß. Weißraum statt Rahmen. Typografie trägt die Hierarchie. Anmerkungen stehen im Bild, nicht daneben.
+Zahlen, die die Aussage tragen, werden zum Gestaltungselement (Ogg, 44 bis 66 pt), direkt am Ereignis (z. B. „2031“ über dem Break-even).
 
-## 2. Typo-Rollen
+## 2. Raster (16:9, Zoll), `scripts/editorial.py`
+Rand 0,6 · Inhaltsbreite 12,13 · Titel bei 0,48 · Inhalt 1,6 bis 6,0 · Schlusssatz 6,2 bis 6,5 · Quelle 6,98.
+
+## 3. Typo-Rollen
 | Rolle | Größe | Schnitt | Farbe |
 |---|---|---|---|
-| Titel | 26 pt (Hero 40) | Light | Zurich Blue (dunkel: Weiß) |
-| Teilaussage | 18 bis 19 pt | Medium | Dark Blue |
-| Text | 14 pt | Light, Schlüsselzahlen Medium | Dark Blue |
-| Diagramm-Kopf | 12 pt, Großbuchstaben, gesperrt | Medium | Zurich Blue, mit feiner Linie darunter |
-| Beschriftung | 12 bis 13 pt | Light/Medium | Dark Blue |
-| Quelle | 11 bis 12 pt | Light | Dark Blue |
-| Große Zahl | 36 bis 46 pt | Ogg | Zurich Blue oder Weiß |
-Maximal zwei Zeilen Titel. Bewusste Umbrüche, keine einzelnen Restwörter. Kein AutoFit.
+| Titel | 26 pt (Titelfolie 40 pt weiß auf Band) | Light | Zurich Blue |
+| Kicker (Großbuchstaben, gesperrt) | 10 pt | Medium | Zurich Blue oder Dark Blue |
+| Teilaussage | 15 bis 17 pt | Medium | Dark Blue |
+| Text | 13 bis 14 pt | Light, Zahlen Medium | Dark Blue |
+| Große Zahl | 44 bis 66 pt | Ogg | Zurich Blue (Kontext: Dark Blue) |
+| Schlusssatz | 15 bis 17 pt | Medium, mit kurzem Akzentstrich darüber | Dark Blue |
+| Quelle | 10 pt | Light | Dark Blue |
 
-## 3. Farbe nach Rolle
-Hervorhebung = Zurich Blue · Kontext = Light Blue · Text = Dark Blue · eine dunkle Fläche je Folie (Band **oder** Kennzahlkarte).
-Bedeutung nie nur über Farbe: Legende mit Text oder direkte Beschriftung. Mid Blue nur als Fläche/Linie ohne Text.
+## 4. Elemente
+| Element | Funktion | Statt |
+|---|---|---|
+| `statement()` Akzentstrich + Satz | Konsequenz/Bitte, die der Titel nicht sagt | dunkles Band |
+| `kicker()` | Kopf eines Diagramms, Kapitelmarke oben rechts | Pille, Kopfbalken |
+| `big()` | tragende Zahl am Ereignis oder im Kartenkopf | Kennzahl-Box rechts |
+| `blue_band()` + `white_card()` | Antwort zuerst, Entscheidung, Titel | dunkle Folie, getönte Kacheln |
+| `leader()` | Anmerkung mit Linie zum Datenpunkt | Legende, Erklärbox |
+| feine Linien (`D.rule`) | Gliederung von Listen, Tabellen, Anhang | Kästen |
+| getönte Fläche im Diagramm | Zone mit Bedeutung (Zielzone, Zufallsband, Investitionsphase) | Rahmen |
 
-## 4. Rahmen-Regeln (die wichtigste Änderung)
-- **Keine Karte um Diagramme.** Diagramme stehen auf Weiß unter einem Kopf mit feiner Linie (`header`).
-- Getönte Karte nur für Kennzahl- oder Textgruppen; weiße Karte mit Linie nur für parallele Optionen; dunkle Karte nur für DIE Botschaft.
-- **Höchstens ein dunkles Element** pro Folie. Hat die Folie eine dunkle Kennzahlkarte, wird der Schluss eine ruhige Zeile (`takeaway`).
-- Das Band sagt etwas, das der Titel nicht sagt (Konsequenz, Bedingung, Bitte, Überleitung „ABER“).
+## 5. Farbe
+Weißer Grund. Zurich Blue = Hervorhebung und Band. Light Blue = Kontext, Flächen im Diagramm (nie Textfarbe). Dark Blue = Text.
+Mid Blue nur für Linien. Bedeutung nie nur über Farbe: direkt beschriften.
 
-## 5. Icons
-Bedeutung tragen, eine Sprache: Piktogramm in heller Scheibe (`icon`), auf dunklem Grund in weißer Scheibe; in dunklen Köpfen weiß ohne Scheibe.
-Gleicher Begriff = gleiches Icon im ganzen Deck:
-| Begriff | Icon | Begriff | Icon |
-|---|---|---|---|
-| Markt, Wachstum | chart-line-up / trend-up | Ertrag, Geld | coins / hand-coins |
-| Anteil | chart-pie-slice | Zeit, Amortisation | hourglass |
-| Risiko, Absicherung | shield-check | Daten, Erhebung | database / magnifying-glass |
-| Ziel, Fokus | target | Pilot, Test | flask |
-| Kriterium, Schwelle | flag-banner / scales | Skalierung | steps |
-| Entscheidung, Zusage | seal-check / gavel | Personen, Gremium | users-three |
-Im Master-Modus durch Zurich-Piktogramme gleicher Bedeutung ersetzen.
+## 6. Diagramm-Grammatik
+Native Diagramme oder präzise gezeichnete Formen aus dem Modell. Keine Gitter, keine Achse, wo direkte Beschriftung reicht.
+Die Aussage wird **im Diagramm** markiert: Ereignis, Lücke, Schwelle, Zone, Band. Kopf (Kicker) nennt Größe, Einheit, Zeitraum.
 
-## 6. Diagramm-Grammatik (Beratungsstandard)
-- Native, editierbare Diagramme. Keine Gitterlinien, keine Achse, wenn direkte Beschriftung reicht; Nulllinie bei Bedarf gestrichelt.
-- **Direkt beschriften** (Werte am Balkenende, Linienenden benannt), keine Legende, Dezimalkomma.
-- Sortieren, wenn die Reihenfolge keine Bedeutung hat. Fokus hervorheben, Rest Kontextfarbe.
-- **Die Aussage im Diagramm markieren:** Ereignis (Break-even), Lücke (Klammer „−30“), Schwelle (Linie), Spanne (Band).
-- Kopf nennt Größe, Einheit, Zeitraum; Quelle/Rechenweg in der Fußzeile.
+## 7. Icons
+Phosphor (MIT), Zurich Blue; Zuordnung Begriff → Icon wie bisher (chart-line-up = Markt, coins = Ertrag, shield-check = Risiko,
+target = Fokus/Basisfall, flag-banner = Schwelle, warning = Grenze, hand-coins = Freigabe, seal-check = Zusage, users-three = Gremium).
+In weißen Karten mit heller Scheibe, im Text ohne Scheibe. Im Master-Modus durch Zurich-Piktogramme ersetzen.
+
+## 8. Bekannte Fehlalarme der Audits
+`geometry_audit` meldet Karten auf dem Band und Zonen im Diagramm als „Überlagerung“. Das ist gewollt; im Render prüfen.

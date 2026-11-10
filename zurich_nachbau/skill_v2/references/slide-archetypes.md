@@ -1,30 +1,24 @@
-# Archetypen: welcher Folientyp für welche Aufgabe (Phase 4)
+# Archetypen 2.1: welche Form für welche Aussage
 
-Die Frage ist nie „Was sieht gut aus?“, sondern **„Was soll der Betrachter tun?“**. Jeder Archetyp hat eine feste Anatomie im
-Zurich-Stil. Funktionen aus `scripts/deck_lite.py` in Klammern; Beispiel = Folie in `examples/marktfokus_v3`.
+Leitfrage: **Was soll der Betrachter tun?** Jede Folie bekommt die Form ihrer Aussage; keine zwei gleichen Formen hintereinander.
+Referenz-Deck: `examples/marktfokus_v4/` (F = Folie). Ältere Formen aus v3 bleiben möglich, aber ohne dunkle Bänder, Pillen und getönte Kästen.
 
-| Aufgabe des Betrachters | Archetyp | Anatomie | Beispiel |
+| Aufgabe | Archetyp | Aufbau | Beispiel |
 |---|---|---|---|
-| Antwort und Gründe in einer Minute | **Antwort zuerst** | 3 Zeilen: Icon, Behauptung (18 pt), Satz mit fetten Zahlen, rechts je ein **Vergleichspaar** (`compare_bars`); dunkles Band mit Bitte | F2 |
-| Mehrere Objekte über drei Sichten vergleichen | **Dreispalter** | 3 Spalten mit dunklem Kopf (Icon weiß), gleiche Zeilen, Hervorhebungszone quer, Takeaway mit fetten Zahlen je Spalte (`bars_h`) | F3 |
-| Zwei Teilaussagen belegen („A, aber B“) | **Zwei Belege** | 2 Hälften ohne Karten, getrennt durch feine Linie: Teilaussage mit Icon (`claim`), Kopf (`header`), Diagramm, Erklärung | F4 |
-| Entwicklung, Break-even, Vergleich über Zeit | **Kurve + Kennzahl** | links 2/3 Liniendiagramm mit direkter Beschriftung und markiertem Ereignis, rechts 1 dunkle + 1 helle Kennzahlkarte | F5 |
-| Robustheit, „hält das bei schlechteren Annahmen?“ | **Sensitivitätsmatrix** | Raster zwei Annahmen × Ergebniswert, 3 Farbstufen + Text-Legende, Basisfall gerahmt, tragfähiger Bereich gestrichelt | F6 |
-| Datenqualität, Abweichung vom Erwarteten | **Abweichung gegen Band** | Säulen/Werte gegen Referenzband (z. B. Zufallsband), Band beschriftet, rechts Ist- und Soll-Kennzahl | F7 |
-| Ablauf mit Geld und Entscheidungen | **Roadmap mit Gates** | Pfeile = Phasen, Zeilen: Was / Ergebnis / Entscheidungspunkt (Raute + Kriterium) / Tranche (Balken), Klammer für gebundenes Geld | F8 |
-| Entscheiden | **Entscheidungsfolie** (dunkel) | 3 Karten = 3 Beschlüsse mit Zahl, Platzhalter für Entscheider/Termin | F9 |
-| Aufbau verstehen | **Pyramide** | Frage → Antwort → Argumente → Belegfolien | F10 |
-| Exakte Werte nachschlagen | **Tabelle** | Kopf dunkel, Zahlen rechtsbündig, Fokuszeilen hell, Summenzeilen | F12 |
-| Herleitung prüfen | **Annahmenliste** | nummerierte Zeilen: Begriff, Definition/Wert | F11 |
-| Optionen über Kriterien bewerten | **Optionen-Matrix** | Kriterien als Zeilen, Optionen als Spalten, Empfehlung gerahmt, Kennzahl je Zelle, Risiko als Symbol + Wort | v2 F4 |
-| Eine Zahl/These trägt alles | **Hero** | ein Satz oder eine Zahl, dunkel, Motiv | F1 |
+| Thema setzen | **Titel auf Band** | Zurich-Blue-Band über die ganze Breite, Titel weiß 40 pt, Motivringe, darunter Anlass und Datum | v4 F1 |
+| Antwort und Gründe in einer Minute | **Band + drei Karten** | Band quer durch die Mitte, drei weiße Karten mit Schatten: Icon, Kicker, Teilaussage, große Zahl, Satz, Vergleichspaar | v4 F2 |
+| Wo stehen wir im Markt? | **Portfolio (Kreise)** | x = Wachstum, y = Anteil, Kreisfläche = Größe; Zielzone getönt, Durchschnittslinien gestrichelt, nur Fokus beschriftet | v4 F3 |
+| Entwicklung + Tempo | **Große Kurve + Streifen** | Fläche unter der Kurve, Start/Ende als große Zahlen, darunter schmale Säulen auf gleicher Zeitachse | v4 F4 |
+| Rechnet es sich? | **J-Kurve mit Ereigniszahl** | kumuliertes Ergebnis, Investitionsphase getönt, Amortisationsjahr groß über dem Nulldurchgang | v4 F5 |
+| Hält es bei schlechteren Annahmen? | **Sensitivitätsraster** | Raster mit Ogg-Zahlen, drei Stufen, Basisfall gerahmt, tragfähiger Bereich gestrichelt, rechts Lesehilfe mit Icons (Text, kein Kasten) | v4 F6 |
+| Sind die Daten echt? | **Zahlenpaar + Band** | drei große Zahlen (Ist, Erwartung, Faktor), darunter Werte im Zufallsband | v4 F7 |
+| Wie wird umgesetzt, was ist gebunden? | **Kapital-Treppe** | Stufen = gebundenes Kapital je Phase, Rauten = Entscheidungspunkte, Kriterien oben, Phasen unten | v4 F8 |
+| Entscheiden | **Band + drei Beschlusskarten** | wie F2, je Karte: Kicker „Beschluss n“, große Zahl, Verb, Erklärung | v4 F9 |
+| Aufbau lernen | **Pyramide aus Linien** | Frage, Antwort, drei Argumente, Belegfolien mit Ogg-Nummern, nur Linien | v4 F10 |
+| Herleitung prüfen | **Annahmen in zwei Spalten** | Ogg-Nummer, Begriff, Definition, feine Linien | v4 F11 |
+| Werte nachschlagen | **Tabelle ohne Kästen** | Kopf mit Einheit, Linien, Fokus-Marke links, Summenzeilen | v4 F12 |
+| Optionen über Kriterien | **Optionen-Matrix** | Kriterien × Optionen, Empfehlung über feine Rahmenlinie, Zahl je Zelle | v2 F4 |
 
-## Diagrammwahl innerhalb eines Archetyps
-Vergleich/Rangfolge → Balken (sortiert). Zeit → Linie. Anteil am Ganzen → gestapelter 100-%-Balken. Abweichung → Abweichungsbalken
-oder Punkt mit Referenzlinie. Beiträge → Waterfall. Zusammenhang → Streudiagramm. Spanne → Intervall. Schwelle → Säule mit Linie.
-Mischen ist erwünscht, wenn jedes Diagramm eine eigene Frage beantwortet und alle dieselben Zeilen/Zeitachse teilen.
-
-## Folgen im Deck
-- Nie zwei gleiche Archetypen direkt hintereinander (Ausnahme: bewusst parallele Belegfolien).
-- Nach einer dichten Folie eine ruhigere.
-- Jede Belegfolie trägt die Kapitel-Pille mit Argumentnummer (`tracker`).
+## Diagrammwahl
+Vergleich → Balken (sortiert) · Zeit → Linie/Fläche · Anteil → 100-%-Balken · Abweichung → Werte gegen Band/Referenz ·
+Beiträge → Waterfall · Zusammenhang zweier Größen → Streu-/Kreisdiagramm · Schwelle → Linie · Robustheit → Raster.
