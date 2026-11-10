@@ -23,14 +23,25 @@ PAGE = 0
 DARK = False
 
 
+def set_title(txt, x, y, w, h, size, color):
+    tt = s.shapes.title
+    tt.left, tt.top, tt.width, tt.height = Inches(x), Inches(y), Inches(w), Inches(h)
+    tf = tt.text_frame; tf.clear(); tf.word_wrap = True; tf.auto_size = MSO_AUTO_SIZE.NONE
+    tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
+    tf.vertical_anchor = MSO_ANCHOR.TOP
+    p = tf.paragraphs[0]; p.alignment = PP_ALIGN.LEFT
+    r = p.add_run(); r.text = txt
+    r.font.size = Pt(size); r.font.name = L; r.font.bold = False; r.font.color.rgb = rgb(color)
+
+
 def new_slide(title, notes, title_w=10.3, dark=False):
     """Titel zuerst (Lesereihenfolge), dann Logo; feste Ränder 0,4 in (~1 cm). dark = Dark-Blue-Ground (Entscheidungsfolie)."""
     global s, PAGE, DARK
     PAGE += 1; DARK = dark
-    s = prs.slides.add_slide(prs.slide_layouts[6])
+    s = prs.slides.add_slide(prs.slide_layouts[5])          # "Nur Titel": echter Titel-Platzhalter (Gliederung, Barrierefreiheit)
     if dark:
         s.background.fill.solid(); s.background.fill.fore_color.rgb = rgb(DB)
-    text(0.44, 0.34, title_w, 0.9, title, 26, L, WHITE if dark else ZB).name = "Titel"
+    set_title(title, 0.44, 0.34, title_w, 0.9, 26, WHITE if dark else ZB)
     shape(S.OVAL, 11.45, 0.42, 0.4, 0.4, fill=WHITE if dark else ZB, name="Logo (Nachbildung)", alt="Zurich Logo")
     text(11.45, 0.42, 0.4, 0.4, "Z", 16, M, ZB if dark else WHITE, "c", "m")
     text(11.95, 0.42, 1.1, 0.4, "ZURICH", 15, M, WHITE if dark else ZB, "l", "m", spacing=100)
