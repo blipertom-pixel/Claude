@@ -32,7 +32,9 @@ sc_val = [round(p / 100 * 6200) for _, p in SC]
 assert sc_val == [50, 93, 136]
 PH = [("Datenbasis klären", "Q1 2027", 2), ("Pilot in einem Segment", "Q2 2027", 8),
       ("Auf drei Segmente ausweiten", "Q3 2027", 40), ("Auf Jahreswerte steuern", "Q4 2027", 30)]
-assert sum(p[2] for p in PH) == INV_B and sum(p[2] for p in PH[:2]) / INV_B == 0.125
+assert sum(p[2] for p in PH) == INV_B and sum(p[2] for p in PH[:2]) / INV_B == 0.125 and sum(p[2] for p in PH[:3]) == 50
+GAP_LOW = 80 - sc_val[0]
+assert GAP_LOW == 30
 d = np.array(json.load(open("../modell_anteil.json"))["d"])
 sh_ts = 28.0 + np.concatenate([[0], np.cumsum(d)])
 pace = np.array([d[i:i + 3].mean() for i in range(21)])
@@ -105,20 +107,20 @@ new_slide("Hero", "Zweck: Der Vorstand soll 80 Mio. € für den Fokus auf drei 
           "Lernhinweis: Dieses Deck folgt der Methode (Antwort zuerst, drei Argumente, Ghost Deck). Die Erklärung je Folie steht in den Notizen.", dark=True)
 for k, (dd, a) in enumerate([(5.2, 12), (4.0, 16), (2.8, 22)]):
     shape(S.DONUT, 13.333 - dd * 0.62, 7.5 - dd * 0.62, dd, dd, fill=LB, alpha=a).adjustments[0] = 0.1
-set_title("Wir setzen 80 Mio. € auf drei Segmente, in denen der Markt am stärksten wächst", 0.7, 2.2, 8.6, 2.4, 44, WHITE)
+set_title("Wo der Markt am stärksten wächst,\nsetzen wir 80 Mio. € ein", 0.7, 2.2, 10.6, 2.4, 40, WHITE)
 text(0.7, 5.0, 9.3, 0.4, "Vorlage für den Vorstand  ·  Marktfokus 2027 bis 2029  ·  10. November 2026", 17, L, WHITE)
 text(0.4, 6.93, 9, 0.3, "Beispieldaten, fiktiv.", 12, L, WHITE)
 
 # ======================= 2  Antwort zuerst, jede Behauptung mit ihrem Vergleich ========================
-new_slide("Wir setzen 80 Mio. € auf drei Segmente, weil Markt, Rechnung und Datenbasis dafür sprechen",
-          "WARUM DIESE FOLIE: Antwort zuerst. Wer nur diese Folie liest, kennt Antwort und Gründe. Jede Behauptung zeigt rechts ihren Vergleich, "
-          "damit sie belegt und nicht nur behauptet ist. Die Detailbelege folgen auf Folie 3 bis 7. "
+new_slide("Wir setzen 80 Mio. € auf drei Segmente, weil Markt, Rechnung und Risiko dafür sprechen",
+          "WARUM DIESE FOLIE: Antwort zuerst. Drei Argumente, die sich nicht überschneiden: Chance (Markt), Ertrag (Rechnung), Risiko. "
+          "Jede Behauptung zeigt rechts ihren Vergleich, damit sie belegt und nicht nur behauptet ist. Detailbelege auf Folie 3 bis 7. "
           "Situation: Der Markt wächst bis 2029 um 9,0 Mrd. €. Komplikation: 69 % davon liegen in drei Segmenten mit nur 2,1 % Anteil. "
-          "Frage: Wo setzen wir Geld ein, und können wir den Daten trauen? Antwort: 80 Mio. € auf Gesundheit, Cyber, Logistik.")
+          "Frage: Wo setzen wir Geld ein, und können wir den Daten trauen? Antwort: 80 Mio. € auf Gesundheit, Cyber, Logistik, in vier Tranchen. Fiktive Daten.")
 RH, GAP, Y0 = 1.38, 0.13, 1.5
-claims = [(g_trend, "Der Markt wächst dort am stärksten", "Drei Segmente liefern 69 % des Zuwachses, und wir haben dort den kleinsten Anteil.", "Folie 3"),
+claims = [(g_trend, "Der Markt wächst dort am stärksten", "Drei Segmente liefern 69\u00a0% des Zuwachses, und wir haben dort den kleinsten Anteil.", "Folie 3"),
           (g_scales, "Die Rechnung geht auf", "Je investiertem Euro bringt der Fokus mehr als dreimal so viel wie die breite Streuung.", "Folie 4 und 5"),
-          (g_check, "Die Daten tragen", "Der Anteil wächst klar um 11,5 % pro Jahr, ein Nachlassen des Tempos ist nicht belegt.", "Folie 6 und 7")]
+          (g_check, "Das Risiko bleibt begrenzt", "Das Wachstum ist klar belegt, und bis zur Ausweitung sind erst 12,5\u00a0% der 80 Mio. € gebunden.", "Folie 6 und 7")]
 for i, (g, claim, proof, ref) in enumerate(claims):
     y = Y0 + i * (RH + GAP)
     card(0.4, y, 12.53, RH)
@@ -133,18 +135,26 @@ minibars(mx + 3.0, y1, "UNSER ANTEIL, %", [("Fokus (3)", avg(range(F)), ZB), ("�
 y2 = Y0 + (RH + GAP) + 0.17
 minibars(mx, y2, "MEHR-ANTEIL JE INVESTIERTEM EURO, €", [("Fokus", EUR_B, ZB), ("breit", EUR_A, FOCUS_LIGHT)], 1.3, 0.7, 4.0, lambda v: de(v, 2), ref=(1.0, "1,00 = Einsatz"))
 y3 = Y0 + 2 * (RH + GAP) + 0.17
-text(mx, y3, 5.5, 0.22, "ANTEIL AM MARKT, %, NOV 2024 BIS OKT 2026", 11, M, ZB)
-pts = [(mx + 0.1 + 4.2 * k / 23, y3 + 0.98 - 0.5 * (v - 28.0) / 6.5) for k, v in enumerate(sh_ts)]
+text(mx, y3, 2.8, 0.22, "ANTEIL AM MARKT, %", 11, M, ZB)
+pts = [(mx + 0.1 + 2.4 * k / 23, y3 + 1.0 - 0.5 * (v - 28.0) / 6.5) for k, v in enumerate(sh_ts)]
 polyline(pts, MB)
 shape(S.OVAL, pts[0][0] - 0.07, pts[0][1] - 0.07, 0.14, 0.14, fill=ZB); shape(S.OVAL, pts[-1][0] - 0.07, pts[-1][1] - 0.07, 0.14, 0.14, fill=ZB)
-text(pts[0][0] - 0.05, pts[0][1] - 0.32, 0.7, 0.24, "28,0", 12, M, DB)
-text(pts[-1][0] - 0.2, pts[-1][1] - 0.3, 0.7, 0.24, "34,5", 12, M, DB)
-pill(mx + 0.7, y3 + 0.32, 1.9, "+11,5 % pro Jahr", ZB, WHITE, h=0.32, size=12)
-band("WIR BITTEN UM", "Freigabe von 80 Mio. € für 2027 bis 2029 und den Start des Piloten im ersten Quartal.")
-footer("Beispieldaten, fiktiv. Fokus = Gesundheit, Cyber, Logistik; Anteil gewichtet nach Marktzuwachs; \nMehr-Anteil = Pp-Gewinn × Marktzuwachs ÷ Investition.")
+text(pts[0][0] - 0.05, pts[0][1] - 0.32, 0.6, 0.24, "28,0", 12, M, DB)
+text(pts[-1][0] - 0.3, pts[-1][1] - 0.3, 0.6, 0.24, "34,5", 12, M, DB)
+text(mx + 3.0, y3, 3.0, 0.22, "TRANCHEN, MIO. € (VON 80)", 11, M, ZB)
+tx = mx + 3.0; tw = 2.75
+for k, (nm, per, amt) in enumerate(PH):
+    wseg = tw * amt / INV_B
+    shape(S.RECTANGLE, tx, y3 + 0.4, wseg - 0.02, 0.3, fill=DB if k < 2 else FOCUS_LIGHT)
+    tx += wseg
+bw = tw * 10 / INV_B
+shape(S.RECTANGLE, mx + 3.0, y3 + 0.8, bw, 0.02, fill=DB); shape(S.RECTANGLE, mx + 3.0, y3 + 0.8, 0.02, 0.08, fill=DB); shape(S.RECTANGLE, mx + 3.0 + bw - 0.02, y3 + 0.8, 0.02, 0.08, fill=DB)
+text(mx + 3.0, y3 + 0.9, 3.0, 0.24, "10 von 80 = 12,5\u00a0% gebunden", 11, M, DB)
+band("WIR BITTEN UM", "Den Rahmen von 80 Mio. € und 10 Mio. € sofort für den Piloten im ersten Quartal.")
+footer("Beispieldaten, fiktiv. Fokus = Gesundheit, Cyber, Logistik; Anteil gewichtet nach Marktzuwachs;\nMehr-Anteil = Pp-Gewinn × Marktzuwachs ÷ Investition. Tranchen: Folie 7.")
 
 # ======================= 3  Dreispalter (freigegeben) ==================================================
-new_slide("Dort, wo der Markt am stärksten wächst, ist unser Anteil am kleinsten und jeder Prozentpunkt am meisten wert",
+new_slide("Wo der Markt am stärksten wächst, ist unser Anteil am kleinsten, und jeder Prozentpunkt zählt am meisten",
           "WARUM DIESE FOLIE: Argument 1 (Warum dort?). Der Titel enthält drei Teilaussagen (wächst, Anteil klein, Prozentpunkt wertvoll), also drei Belege über dieselben acht Segmente. "
           "Die Hervorhebung läuft quer durch alle Spalten, damit man die Fokus-Segmente über alle drei Sichten verfolgt. "
           "Gemeinsames Modell: Wert von 1 Pp = Marktzuwachs × 1 %. Fiktive Daten.")
@@ -228,7 +238,7 @@ band("EMPFEHLUNG", "Option B: höchster Ertrag je Euro, mittleres Risiko und 60 
 footer("Beispieldaten, fiktiv. Mehr-Anteil = Pp-Gewinn × Marktzuwachs 2026 bis 2029 \n(A: 0,5 Pp × 9,0 Mrd. €; B: 1,5 Pp × 6,2 Mrd. €). Pp = Prozentpunkte.")
 
 # ======================= 5  Szenarien ==================================================================
-new_slide("Die Investition rechnet sich ab 1,3 Prozentpunkten Mehr-Anteil, im Basisfall erreichen wir 1,5",
+new_slide("Der Fokus rechnet sich ab 1,3 Pp Mehr-Anteil, im Basisfall erreichen wir 1,5, im vorsichtigen Fall fehlen 30 Mio. €",
           "WARUM DIESE FOLIE: Argument 2 (Lohnt es sich?), zweite Hälfte. Folie 4 zeigt die Rechnung im Basisfall; diese Folie beantwortet die eigene Frage 'Hält sie bei Unsicherheit?'. "
           "Betrachteraufgabe: Balken gegen eine Schwelle lesen (Säulen mit Linie). Szenarien sind Fortschreibungen, keine Prognosen. "
           "Break-even 80 ÷ 6.200 = 1,29 Pp. Vorsichtig +0,8 Pp = 50, Basis +1,5 = 93, ambitioniert +2,2 = 136 Mio. €. Fiktive Daten.")
@@ -255,6 +265,9 @@ plot_layout(ch, IX, IY, IW, IH); transparent(ch)
 ly = FY + FH * (IY + IH * (1 - 80 / 160))
 shape(S.RECTANGLE, FX + FW * IX, ly - 0.006, FW * IW, 0.012, fill=DB, name="Linie Investition 80 Mio. €")
 text(FX + FW * IX + 0.05, ly - 0.36, 3.2, 0.3, "Investition 80 Mio. €", 13, M, DB)
+xc = FX + FW * IX + FW * IW * (0.5 / 3); y50 = FY + FH * (IY + IH * (1 - 50 / 160))
+shape(S.RECTANGLE, xc + 0.85, ly, 0.02, y50 - ly, fill=DB, name="Lücke"); shape(S.RECTANGLE, xc + 0.8, ly, 0.12, 0.02, fill=DB); shape(S.RECTANGLE, xc + 0.8, y50 - 0.02, 0.12, 0.02, fill=DB)
+text(xc + 0.98, (ly + y50) / 2 - 0.14, 1.3, 0.28, "−30", 14, M, DB)
 card(9.15, 1.5, 3.78, 2.15, "dark")
 g_target(9.62, 2.05, 0.6)
 text(10.1, 1.72, 2.7, 0.75, "1,3 Pp", 40, O, WHITE, "l", "m")
@@ -263,7 +276,7 @@ card(9.15, 3.85, 3.78, 2.15, "tint")
 g_hourglass(9.62, 4.38, 0.6)
 text(10.1, 4.05, 2.7, 0.75, "−30 Mio. €", 30, O, ZB, "l", "m")
 text(9.4, 4.95, 3.3, 0.9, "Lücke im vorsichtigen Fall: 50 statt 80 Mio. € Mehr-Anteil", 14, L, DB)
-band("EINORDNUNG", "Das Risiko bleibt begrenzt: Große Ausgaben fließen erst nach dem Entscheidungspunkt zum Pilot (Folie 7).", 15)
+band("EINORDNUNG", "Das Risiko bleibt begrenzt: Die großen Tranchen fließen erst nach dem Pilot-Ergebnis (Folie 7).", 15)
 footer("Beispieldaten, fiktiv. Szenarien sind Fortschreibungen, keine Prognosen. Mehr-Anteil = Pp-Gewinn × 6,2 Mrd. € Marktzuwachs;\nkein Ergebnis.")
 
 # ======================= 6  Zwei Belege (freigegeben) ==================================================
@@ -272,7 +285,7 @@ new_slide("Der Anteil wächst klar um 11,5 % pro Jahr, ein Nachlassen des Tempo
           "Zugleich das wichtigste Gegenargument: Wer sagt 'Wachstum lässt nach', sieht hier, dass dasselbe Tempo schon im August 2025 vorkam. "
           "Situation: Anteil 28,0 auf 34,5 % in 23 Monaten, jeder Schritt positiv (11,5 % p. a.; Trend 12,0 %; letzte zwölf Monate 10,5 %). "
           "Komplikation: Zuletzt 0,17 statt 0,29 Pp pro Monat. Antwort: Gleich langsam im August 2025, danach 0,41; nur 2 von 21 Fenstern. Fiktive Daten.")
-tracker(3, "Verlässlich")
+tracker(3, "Risiko")
 def panel(x, gi, claim, head):
     card(x, 1.5, 6.115, 4.5)
     gi(x + 0.5, 1.9, 0.5)
@@ -325,12 +338,12 @@ text(RX + 0.28, 4.6, 5.55, 1.3, f"Zuletzt stieg der Anteil um 0,17 statt im Schn
 band("WIR EMPFEHLEN", "Vor einer Skalierung die Datenbasis prüfen und das Tempo weiter monatlich beobachten.")
 footer("Fiktive Daten. Pp = Prozentpunkte; Wachstum = relatives Wachstum des Anteils (23 Monate = 1,92 Jahre);\nFenster = Schnitt von drei Monatsschritten. Beschriftung der Fenster = Endmonat.")
 
-# ======================= 7  Fahrplan mit Entscheidungspunkten und Tranchen =============================
-new_slide("Vor jeder Ausgabe steht ein Entscheidungspunkt, bis zur Ausweitung sind erst 12,5 % der 80 Mio. € gebunden",
-          "WARUM DIESE FOLIE: Argument 3 (Machbar). Betrachteraufgabe: einen Ablauf verstehen, also Phasen, Entscheidungspunkte und Geld in einer Zeitleiste. "
-          "Die Budgetzeile belegt den Titel: 2 + 8 = 10 Mio. € sind vor dem dritten Entscheidungspunkt gebunden, das sind 12,5 % von 80. "
-          "Raute = Entscheidungspunkt, Pfeil = Phase. Die Tranchen (2, 8, 40, 30) sind fiktive Annahmen.")
-tracker(3, "Verlässlich")
+# ======================= 7  Fahrplan: Entscheidungspunkte am Phasenende, Tranchen =======================
+new_slide("Jede Tranche wird erst nach einem Entscheidungspunkt frei, bis zur Ausweitung sind erst 12,5\u00a0% gebunden",
+          "WARUM DIESE FOLIE: Argument 3 (Risiko). Betrachteraufgabe: einen Ablauf verstehen, also Phasen, Entscheidungspunkte und Geld in einer Zeitleiste. "
+          "Die Raute am Phasenende ist die Entscheidung, ob die nächste Tranche frei wird. Die Budgetzeile belegt den Titel: 2 + 8 = 10 Mio. € sind vor der Ausweitung gebunden (12,5 % von 80). "
+          "Stoppt ein Entscheidungspunkt, sind höchstens 2, 10 oder 50 Mio. € eingesetzt, nicht 80. Die Tranchen (2, 8, 40, 30) sind fiktive Annahmen.")
+tracker(3, "Risiko")
 LBLW = 1.55; colw = (12.53 - LBLW - 3 * 0.1) / 4
 xs = [0.4 + LBLW + i * (colw + 0.1) for i in range(4)]
 shades = [LB, MB, ZB, DB]
@@ -339,65 +352,68 @@ what = ["Erhebung und Monatswerte prüfen", "Fabric- und Databricks-Dataset in e
 res = ["Belastbare Datenbasis", "Messbarer Anteilsgewinn", "Drei Segmente live", "Steuerung im Regelbetrieb"]
 gate = ["Erhebung belastbar?", "Gewinn über Zufall?", "Ertrag je Euro hält?", "Dauerbetrieb freigeben?"]
 for i, x in enumerate(xs):
-    shape(S.PENTAGON, x, 1.5, colw + (0.1 if i < 3 else 0), 0.9, fill=shades[i])
+    shape(S.PENTAGON, x, 1.45, colw + (0.1 if i < 3 else 0), 0.85, fill=shades[i])
     dk = i == 0
-    text(x + 0.22, 1.58, colw - 0.9, 0.25, PH[i][1].upper(), 11, M, DB if dk else WHITE, spacing=100)
-    text(x + 0.22, 1.83, colw - 0.6, 0.55, PH[i][0], 14, M, DB if dk else WHITE)
-LANES = [("Was passiert", 2.5), ("Ergebnis", 3.5), ("Entscheidung", 4.3), ("Freigabe, Mio. €", 5.1)]
+    text(x + 0.22, 1.52, colw - 0.9, 0.25, PH[i][1].upper(), 11, M, DB if dk else WHITE, spacing=100)
+    text(x + 0.22, 1.77, colw - 0.6, 0.5, PH[i][0], 14, M, DB if dk else WHITE)
+LANES = [("Was passiert", 2.42), ("Ergebnis", 3.3), ("Entscheidung am Phasenende", 4.0), ("Tranche, Mio. €", 4.85)]
 for lb_, y in LANES:
     shape(S.RECTANGLE, 0.4, y, 12.53, 0.01, fill="D5E3F2")
-    text(0.4, y + 0.12, LBLW - 0.15, 0.3, lb_, 13, M, ZB)
+    text(0.4, y + 0.1, LBLW - 0.15, 0.5, lb_, 13, M, ZB)
 for i, x in enumerate(xs):
-    gl[i](x + 0.34, 3.0, 0.46)
-    text(x + 0.7, 2.66, colw - 0.75, 0.8, what[i], 13, L, DB)
-    text(x + 0.2, 3.66, colw - 0.3, 0.6, res[i], 14, M, DB)
-    shape(S.DIAMOND, x + 0.2, 4.45, 0.32, 0.32, fill=DB, name=f"Entscheidungspunkt {i + 1}", alt=f"Entscheidungspunkt vor Phase {i + 1}")
-    text(x + 0.62, 4.4, colw - 0.7, 0.45, gate[i], 13, M, DB, "l", "m")
+    gl[i](x + 0.34, 2.9, 0.46)
+    text(x + 0.7, 2.52, colw - 0.75, 0.75, what[i], 13, L, DB)
+    text(x + 0.2, 3.46, colw - 0.3, 0.5, res[i], 14, M, DB)
+    shape(S.DIAMOND, x + 0.2, 4.2, 0.32, 0.32, fill=DB, name=f"Entscheidungspunkt {i + 1}", alt=f"Entscheidungspunkt am Ende von Phase {i + 1}")
+    text(x + 0.62, 4.1, colw - 0.7, 0.5, gate[i], 13, M, DB, "l", "m")
     amt = PH[i][2]; wbar = (colw - 1.1) * amt / 40
-    shape(S.RECTANGLE, x + 0.2, 5.28, max(wbar, 0.05), 0.28, fill=DB if i < 2 else ZB)
-    text(x + 0.3 + max(wbar, 0.05), 5.26, 1.0, 0.32, f"{amt}", 15, M, DB, "l", "m")
+    shape(S.RECTANGLE, x + 0.2, 5.0, max(wbar, 0.05), 0.26, fill=DB if i < 2 else ZB)
+    text(x + 0.3 + max(wbar, 0.05), 4.98, 1.0, 0.3, f"{amt}", 15, M, DB, "l", "m")
+    text(x + 0.2, 5.3, colw - 0.3, 0.22, "mit dem Beschluss" if i == 0 else f"frei nach Entscheidungspunkt {i}", 11, L, DB)
 bx0, bx1 = xs[0] + 0.2, xs[1] + colw - 0.2
-shape(S.RECTANGLE, bx0, 5.68, bx1 - bx0, 0.02, fill=DB); shape(S.RECTANGLE, bx0, 5.68, 0.02, 0.1, fill=DB); shape(S.RECTANGLE, bx1 - 0.02, 5.68, 0.02, 0.1, fill=DB)
-text(bx0, 5.76, bx1 - bx0, 0.24, "10 Mio. € = 12,5 % bis zur Ausweitung", 12, M, DB, "c")
-band("EINORDNUNG", "Ein bestandener Entscheidungspunkt gibt jeweils nur die nächste Tranche frei.")
-footer("Beispieldaten, fiktiv. Tranchen 2, 8, 40 und 30 Mio. € sind Annahmen. Rauten = Entscheidungspunkte.")
+shape(S.RECTANGLE, bx0, 5.62, bx1 - bx0, 0.02, fill=DB); shape(S.RECTANGLE, bx0, 5.62, 0.02, 0.1, fill=DB); shape(S.RECTANGLE, bx1 - 0.02, 5.62, 0.02, 0.1, fill=DB)
+text(bx0, 5.72, bx1 - bx0, 0.24, "10 Mio. € = 12,5\u00a0% bis zur Ausweitung", 12, M, DB, "c")
+shape(S.RECTANGLE, 0.4, 6.1, 12.53, 0.01, fill="D5E3F2")
+text(0.4, 6.25, 12.5, 0.5, "Scheitert ein Entscheidungspunkt, stoppen wir nach höchstens 2, 10 oder 50 Mio. € statt nach 80.", 19, M, DB)
+footer("Beispieldaten, fiktiv. Tranchen 2, 8, 40 und 30 Mio. € sind Annahmen. Rauten = Entscheidungspunkte am Ende der Phase.")
 
 # ======================= 8  Entscheidung ===============================================================
-new_slide("Wir bitten um drei Entscheidungen, damit der Pilot im ersten Quartal startet",
-          "WARUM DIESE FOLIE: Das Deck endet mit der Entscheidung: was, wer, bis wann. Jede Karte entspricht einem Argument. "
+new_slide("Wir bitten um 80 Mio. € Rahmen und 10 Mio. € sofort, damit der Pilot im ersten Quartal startet",
+          "WARUM DIESE FOLIE: Das Deck endet mit der Entscheidung: was, wer, bis wann. Die drei Karten sind die drei Beschlüsse, die der Vorstand fassen muss: "
+          "erste Freigabe (Tranche 1 und 2), Rahmen (80 Mio. €, weitere Tranchen nur nach Entscheidungspunkt), Entscheider für die Entscheidungspunkte. "
           "Entscheider und Termin sind nicht bekannt und stehen als [DATA NEEDED]. Fiktive Daten.", dark=True)
-asks = [(g_gear1, "80 Mio. € in Tranchen freigeben", "Option B für Gesundheit, Cyber und Logistik, ausgezahlt in vier Tranchen von 2 bis 40 Mio. €", "80 Mio. €", "Rahmen 2027 bis 2029"),
-        (g_check, "Entscheidungspunkt 1 festlegen", "Vor dem Pilot prüfen wir, ob die Erhebung belastbar ist", "Q1 2027", "Pilot nur bei bestandener Prüfung"),
-        (g_hourglass, "Das Tempo weiter beobachten", "Bei Bestätigung des Rückgangs bewerten wir neu, vor der Ausweitung", "2 von 21", "Fenster so langsam wie zuletzt")]
+asks = [(g_gear1, "Erste Freigabe", "Tranche 1 und 2: Datenbasis klären und Pilot in einem Segment", "10 Mio. €", "sofort, Start im ersten Quartal"),
+        (g_scales, "Rahmen zusagen", "2027 bis 2029; jede weitere Tranche erst nach bestandenem Entscheidungspunkt", "80 Mio. €", "Rahmen, keine Auszahlung auf einmal"),
+        (g_people, "Entscheider benennen", "Wer an den Entscheidungspunkten über die nächste Tranche entscheidet", "4", "Entscheidungspunkte, einer je Phase")]
 cw3 = (12.53 - 2 * 0.25) / 3
 for i, (g, t_, d_, big, cap) in enumerate(asks):
     x = 0.4 + i * (cw3 + 0.25)
     shape(S.ROUNDED_RECTANGLE, x, 1.6, cw3, 4.45, fill=ZB, rad=0.14)
     shape(S.OVAL, x + 0.3, 1.88, 0.5, 0.5, fill=WHITE); text(x + 0.3, 1.88, 0.5, 0.5, str(i + 1), 18, M, ZB, "c", "m")
     g(x + cw3 - 0.75, 2.13, 0.8)
-    text(x + 0.3, 2.7, cw3 - 0.6, 0.75, t_, 20, M, WHITE)
-    text(x + 0.3, 3.45, cw3 - 0.6, 0.9, d_, 14, L, WHITE)
+    text(x + 0.3, 2.7, cw3 - 0.6, 0.45, t_, 22, M, WHITE)
+    text(x + 0.3, 3.3, cw3 - 0.6, 0.95, d_, 14, L, WHITE)
     shape(S.RECTANGLE, x + 0.3, 4.4, cw3 - 0.6, 0.015, fill=WHITE)
     text(x + 0.3, 4.52, cw3 - 0.6, 0.8, big, 40, O, WHITE, "l", "m")
     text(x + 0.3, 5.4, cw3 - 0.6, 0.3, cap, 12, M, WHITE)
 text(0.4, 6.35, 12.0, 0.3, "Entscheider und Termin: [DATA NEEDED: Gremium und Termin der Entscheidung]", 15, M, WHITE)
-footer("Beispieldaten, fiktiv. Pp = Prozentpunkte. Tranchen siehe Folie 7.")
+footer("Beispieldaten, fiktiv. Tranchen und Entscheidungspunkte: Folie 7.")
 
 # ======================= 9  Anhang: Der rote Faden =====================================================
 new_slide("Jede Folie belegt ein Argument, und die drei Argumente tragen die Kernaussage",
           "LERNFOLIE: So ist das Deck gebaut (Pyramidenprinzip). Oben die Kernaussage, darunter drei Argumente, darunter die Folien, die sie belegen. "
-          "Folie 2 gibt die Antwort zuerst, Folie 8 bittet um die Entscheidung. Die Frage oben ist die Komplikation aus der Ausgangslage.")
+          "Folie 2 gibt die Antwort zuerst, Folie 8 bittet um die Entscheidung. Die drei Argumente sind Chance, Ertrag, Risiko.")
 tracker("A", "Anhang")
 text(0.4, 1.45, 12.5, 0.3, "Frage: Wo setzen wir Geld ein, und können wir den Daten trauen?", 14, M, ZB, "c")
 shape(S.ROUNDED_RECTANGLE, 1.9, 1.85, 9.53, 0.95, fill=DB)
-text(2.2, 1.85, 8.9, 0.95, "Kernaussage: 80 Mio. € auf drei Segmente, weil Markt, Rechnung und Datenbasis dafür sprechen", 19, M, WHITE, "l", "m")
+text(2.2, 1.85, 8.9, 0.95, "Kernaussage: 80 Mio. € auf drei Segmente, weil Markt, Rechnung und Risiko dafür sprechen", 19, M, WHITE, "l", "m")
 AW = 3.95; AG = 0.34; ax = [0.4 + i * (AW + AG) for i in range(3)]
 shape(S.RECTANGLE, 6.665 - 0.007, 2.8, 0.014, 0.2, fill=DB)
 shape(S.RECTANGLE, ax[0] + AW / 2, 3.0, ax[2] - ax[0], 0.014, fill=DB)
 for x in ax: shape(S.RECTANGLE, x + AW / 2 - 0.007, 3.0, 0.014, 0.2, fill=DB)
 args = [(g_trend, "1  Warum dort?", "Der Markt wächst dort am stärksten", [("Folie 3", "Dreispalter: wächst, Anteil, Wert")]),
         (g_scales, "2  Lohnt es sich?", "Die Rechnung geht auf", [("Folie 4", "Optionen: Matrix, Beitrag je Euro"), ("Folie 5", "Szenarien: Schwelle bei 1,3 Pp")]),
-        (g_check, "3  Verlässlich und machbar?", "Die Daten tragen, der Weg ist gestuft", [("Folie 6", "Zwei Belege: Wachstum, Tempo"), ("Folie 7", "Fahrplan mit Entscheidungspunkten")])]
+        (g_check, "3  Bleibt das Risiko tragbar?", "Das Risiko bleibt begrenzt", [("Folie 6", "Zwei Belege: Wachstum, Tempo"), ("Folie 7", "Fahrplan: Tranchen und Stopp")])]
 for x, (gi, h_, cl, sl) in zip(ax, args):
     shape(S.ROUNDED_RECTANGLE, x, 3.2, AW, 1.0, fill=ZB, rad=0.1)
     gi(x + 0.55, 3.7, 0.6)
@@ -432,7 +448,8 @@ for i in range(8):
     fill = "DCEAF6" if i < F else WHITE
     for j, v in enumerate((cats[i], de(grow[i]), de(share[i]), str(worth[i]))):
         setc(tbl.cell(i + 1, j), v, 14, M if (j == 0 and i < F) else L, DB, fill, "l" if j == 0 else "r")
-band("EINORDNUNG", "Die drei Fokus-Segmente sind je Prozentpunkt 62 Mio. € wert, die übrigen fünf zusammen 28 Mio. €.", 15)
+shape(S.RECTANGLE, 0.4, 6.1, 12.53, 0.01, fill="D5E3F2")
+text(0.4, 6.25, 12.5, 0.5, "Die drei Fokus-Segmente sind je Prozentpunkt 62 Mio. € wert, die übrigen fünf zusammen 28 Mio. €.", 19, M, DB)
 footer("Beispieldaten, fiktiv. Wert von 1 Pp = Marktzuwachs × 1 %. Pp = Prozentpunkte.")
 
 # ======================= 11  Anhang: Annahmen ==========================================================
@@ -444,7 +461,7 @@ ass = [("Marktzuwachs", "Zuwachs je Segment 2026 bis 2029, Summe 9,0 Mrd. €, d
        ("Mehr-Anteil", "Pp-Gewinn × Marktzuwachs. Option A: +0,5 Pp auf 9,0 Mrd. €; Option B: +1,5 Pp auf 6,2 Mrd. €. Kein Ergebnis."),
        ("Szenarien", "Fortschreibung des Pp-Gewinns (+0,8, +1,5, +2,2 Pp), keine Prognose. Break-even bei 80 Mio. €: 1,3 Pp."),
        ("Wachstumsrate", "Relatives Wachstum des Anteils (28,0 auf 34,5 % in 23 Monaten = 1,92 Jahre); Spanne = Trend und letzte zwölf Monate."),
-       ("Tranchen", "Aufteilung der 80 Mio. € auf vier Phasen (2, 8, 40, 30 Mio. €) ist eine Annahme für dieses Beispiel.")]
+       ("Tranchen", "Aufteilung der 80 Mio. € auf vier Phasen (2, 8, 40, 30 Mio. €); Tranchen werden nach den Entscheidungspunkten frei. Annahme für dieses Beispiel.")]
 for i, (k, v) in enumerate(ass):
     y = 1.5 + i * 0.78
     card(0.4, y, 12.53, 0.68, "tint")
