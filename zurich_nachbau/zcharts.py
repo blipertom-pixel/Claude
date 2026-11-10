@@ -23,7 +23,7 @@ def transparent(chart):
     cs.insert(list(cs).index(cs.find(qn("c:chart"))) + 1, sp)
 
 
-def hbar(x, y, w, h, cats, vals, nfocus, vmax, fmt, show_cats, inner, alt):
+def hbar(x, y, w, h, cats, vals, nfocus, vmax, fmt, show_cats, inner, alt, labels=True):
     cd = CategoryChartData(number_format=fmt); cd.categories = cats; cd.add_series("Wert", vals)
     gf = Z.s.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(x), Inches(y), Inches(w), Inches(h), cd)
     gf._element.nvGraphicFramePr.cNvPr.set("descr", alt); gf.name = alt[:40]
@@ -33,9 +33,10 @@ def hbar(x, y, w, h, cats, vals, nfocus, vmax, fmt, show_cats, inner, alt):
     for i in range(len(vals)):
         pt = pl.series[0].points[i]; pt.format.fill.solid()
         pt.format.fill.fore_color.rgb = rgb(ZB if i < nfocus else FOCUS_LIGHT)
-    pl.has_data_labels = True
-    dl = pl.data_labels; dl.number_format = fmt; dl.number_format_is_linked = False
-    dl.position = XL_LABEL_POSITION.OUTSIDE_END; dl.font.size = Pt(13); dl.font.name = L; dl.font.color.rgb = rgb(DB)
+    if labels:
+        pl.has_data_labels = True
+        dl = pl.data_labels; dl.number_format = fmt; dl.number_format_is_linked = False
+        dl.position = XL_LABEL_POSITION.OUTSIDE_END; dl.font.size = Pt(13); dl.font.name = L; dl.font.color.rgb = rgb(DB)
     va = ch.value_axis; va.minimum_scale, va.maximum_scale = 0, vmax
     va.has_major_gridlines = False; va.visible = False
     ca = ch.category_axis; ca.reverse_order = True; ca.major_tick_mark = XL_TICK_MARK.NONE
