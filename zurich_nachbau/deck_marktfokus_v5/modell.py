@@ -39,6 +39,11 @@ share29_mit = B29_mit / 10 / m29.sum()
 REASONS = ["Beratung", "Schadenservice", "Preis", "Marke und Vertrauen"]
 R_FOK = [41, 27, 18, 14]; R_REST = [24, 22, 35, 19]
 
+# ---- Vermittler: Anteil, der den Versicherer für Gewerbeberatung empfiehlt, % (Vermittlerbefragung n = 412)
+VERM = [("A", 61), ("Zurich", 57), ("B", 52), ("C", 49), ("D", 47), ("E", 44), ("F", 41), ("G", 38),
+        ("H", 35), ("I", 33), ("J", 30), ("K", 27), ("L", 24), ("M", 21)]
+VERM_RANK = [n for n, _ in VERM].index("Zurich") + 1
+
 # ---- Business Case: Mehrergebnis = zusätzlicher Beitrag × (1 − Combined Ratio Fokus)
 YEARS = list(range(2027, 2036))
 RAMP = {2027: 0.2, 2028: 0.55}                                      # Anteil des Ziel-Pp-Gewinns
@@ -79,6 +84,7 @@ def de(v, n=1):
     s = f"{abs(v):,.{n}f}".replace(",", "X").replace(".", ",").replace("X", ".")
     return ("−" if v < 0 and round(abs(v), n) != 0 else "") + s
 
+assert VERM_RANK == 2 and len(VERM) == 14
 assert STEP1 == [0, 1, 2, 3, 4] and STEP2 == [0, 1, 2, 3] and STEP3 == FOKUS
 assert sum(R_FOK) == 100 and sum(R_REST) == 100 and sum(INV.values()) == 80
 assert g_ohne < mkt_g < g_mit and share29_ohne < share26 < share29_mit

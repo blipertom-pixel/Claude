@@ -34,3 +34,12 @@ Jede Frage stammt aus einem echten Fehler in den Vorversionen dieses Skills. Rot
 ## E. Ablauf der Schleife
 Render jeder Folie ansehen → Befunde A bis D notieren (Review-Notiz) → beheben → neu rendern → bis keine roten Befunde.
 Die Review-Notiz bleibt beim Deck (z. B. `Review_SchleifeN.md`) und ist Teil der Übergabe.
+
+## F. Zweckprüfung je Element (ergänzt 12.11.2026)
+Für jedes Element fragen: Welche Aussage trägt es? Fehlt ohne es etwas? Zeigt eine andere Darstellung es besser?
+- Achsen, Legenden, Spalten, die Werte nur wiederholen, entfernen.
+- Icons nur mit Bedeutung: beschriften oder als Wegweiser deckweit gleich verwenden (Kapitelmarke = Icon des Arguments).
+- Veranschaulichung (Persona, Zitat) ist kein Beleg: in den Anhang, wenn der Platz für einen Beleg gebraucht wird.
+- Schwache Zahlen (z. B. −0,1 Pp) nicht als Schlusssatz; in Euro oder in die Wirkung übersetzen.
+- Große Zahlen auf Beschlusskarten müssen selbst den Beschluss nennen (Betrag, Schwelle), keine Zählwerte.
+Beispiel: `examples/marktfokus_v5/` und `deck_marktfokus_v5/Zweckpruefung.md`.

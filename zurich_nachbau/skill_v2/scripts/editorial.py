@@ -13,12 +13,15 @@ from deck_lite import S, Inches, Pt, qn, rgb, de, ZB, DB, MB, LB, WHITE, L, M, O
 X0, W = 0.6, 12.13                      # großzügiger Rand
 TITLE_Y, TITLE_SIZE = 0.48, 26
 
-def slide(title, notes="", chapter=None, title_w=10.0):
-    """Weiße Folie: Titel (echter Platzhalter), Logo, Kapitelmarke als Text (keine Pille)."""
+def slide(title, notes="", chapter=None, title_w=10.0, chapter_icon=None):
+    """Weiße Folie: Titel (echter Platzhalter), Logo, Kapitelmarke als Text (keine Pille), optional mit dem Icon des Arguments."""
     sl = D.slide(title, notes, dark=False, hero=True)
     D._set_title(title, X0, TITLE_Y, title_w, 1.0, TITLE_SIZE, ZB)
     if len(title.replace("\n", " ")) > 95: D._st["warn"].append(f"Folie {D._st['page']}: Titel zu lang")
-    if chapter: D.text(10.6, 0.98, 2.13, 0.25, chapter.upper(), 10, M, ZB, "r", spacing=120)
+    if chapter:
+        right = 12.73 - (0.32 if chapter_icon else 0)
+        D.text(right - 2.4, 0.98, 2.4, 0.25, chapter.upper(), 10, M, ZB, "r", spacing=120)
+        if chapter_icon: D.icon(chapter_icon, 12.6, 1.1, 0.26, disc_=False)
     return sl
 
 def to_front(sp):

@@ -33,8 +33,9 @@ D.slide("Wo der Markt am stärksten wächst, setzen wir 80 Mio. € ein",
 E.blue_band(2.0, 2.9)
 for r_, a in [(3.4, 10), (2.5, 13), (1.6, 18)]:
     D.shape(S.DONUT, 13.333 - 2.0 - r_ / 2, 3.45 - r_ / 2, r_, r_, fill=WHITE, alpha=a).adjustments[0] = 0.06
-for k, ic in enumerate(["shield-check", "heartbeat", "truck"]):
-    D.icon(ic, 10.71 + k * 0.62, 3.45, 0.5, disc_=False, on_dark=True)
+for k, (ic, nm) in enumerate([("shield-check", "Cyber"), ("heartbeat", "Gesundheit"), ("truck", "Logistik")]):
+    D.icon(ic, 10.31 + k * 1.0, 3.3, 0.5, disc_=False, on_dark=True)
+    D.text(10.31 + k * 1.0 - 0.5, 3.62, 1.0, 0.24, nm, 10, M, WHITE, "c")
 D._set_title("Wo der Markt am stärksten wächst,\nsetzen wir 80 Mio. € ein", X0 + 0.3, 2.6, 9.6, 2.1, 38, WHITE)
 E.to_front(D.s().shapes.title)
 D.text(X0 + 0.3, 5.25, 9.5, 0.35, "Vorlage zur Entscheidung  ·  Vorstand  ·  Marktfokus Gewerbe 2027 bis 2029", 17, M, DB)
@@ -68,7 +69,7 @@ E.footer("Anmerkung: Beispieldaten, fiktiv; Fokus = Cyber, Gesundheit, Logistik.
 # ================= 3 Markt: Mekko ==========================================================================
 E.slide(f"{pct(Mo.F_dz_share * 100, 0)} des Marktzuwachses liegen in drei Segmenten, in denen unser Anteil am niedrigsten ist",
         "ARGUMENT 1 (Markt). Ein Bild mit zwei Dimensionen: Breite = Zuwachs 2026 bis 2029 (wo das Geld hinzukommt), Höhe = unser Anteil. "
-        "Links die breiten, niedrigen Säulen = viel Wachstum, wenig Anteil. Ersetzt die alten Folien 3 und 4 (Kleinlinien ohne Aussage, doppelte Mini-Diagramme).", chapter="Markt")
+        "Links die breiten, niedrigen Säulen = viel Wachstum, wenig Anteil. Ersetzt die alten Folien 3 und 4 (Kleinlinien ohne Aussage, doppelte Mini-Diagramme).", chapter="1 · Markt", chapter_icon="chart-line-up")
 E.kicker(X0, 1.6, W, "Breite = Marktzuwachs 2026 bis 2029  ·  Höhe = unser Marktanteil 2026", DB)
 grp = [(0, "Cyber"), (1, "Gesundheit"), (2, "Logistik"), (3, "Handwerk"), (4, "Freie Berufe")]
 idx_r = [5, 6, 7]
@@ -76,8 +77,6 @@ items = [(nm, Mo.dz[i], Mo.sh[i], i in Mo.FOKUS) for i, nm in grp]
 items.append(("Übrige drei", Mo.dz[idx_r].sum(), (Mo.m26[idx_r] * Mo.sh[idx_r]).sum() / Mo.m26[idx_r].sum(), False))
 px, pw, base, sc = X0 + 0.45, W - 0.45, 5.3, 0.62
 tot = sum(it[1] for it in items)
-for v in (0, 1, 2, 3, 4):
-    D.text(X0 - 0.15, base - v * sc - 0.12, 0.5, 0.24, f"{v}{NB}%", 10, L, GREY, "r")
 x = px; fx = []
 for nm, dz, s_, foc in items:
     w = pw * dz / tot; h = s_ * sc
@@ -101,14 +100,14 @@ yF = base - Mo.F_sh * sc
 xg = fx[2][0] + fx[2][1] + 0.12
 D.vrule(xg, ya, yF - ya, DB, 0.025)
 D.shape(S.RECTANGLE, xg - 0.06, ya, 0.14, 0.02, fill=DB); D.shape(S.RECTANGLE, xg - 0.06, yF - 0.02, 0.14, 0.02, fill=DB)
-D.text(xg - 4.6, ya + 0.06, 4.5, 0.28, f"Lücke {de(Mo.GAP_PP)} Pp = {mio(Mo.PRIZE)} Beitrag pro Jahr ab 2029", 13, M, DB, "r")
-E.statement(f"Ohne Kurswechsel sinkt unser Gesamtanteil bis 2029 von {pct(Mo.share26)} auf {pct(Mo.share29_ohne)}.", y=6.38, size=16)
+D.text(xg - 2.6, ya + 0.06, 2.5, 0.28, f"Lücke {de(Mo.GAP_PP)} Pp", 13, M, DB, "r")
+E.statement(f"Schließen wir dort nur die Lücke zum Durchschnitt, bringt das {mio(Mo.PRIZE)} Beitrag pro Jahr ab 2029.", y=6.38, size=16)
 E.footer(f"Anmerkung: Beispieldaten, fiktiv; übrige drei = Industrie, Handel, Gastro; Lücke bewertet am Fokusmarkt 2029 ({de(Mo.m29[Mo.FOKUS].sum())} Mrd. €). Quelle: Marktstudie 2026, Bruttoprämie Gewerbe")
 
 # ================= 4 Auswahl: Filter =======================================================================
 E.slide("Von acht Segmenten erfüllen nur Cyber, Gesundheit und Logistik alle drei Kriterien",
         "AUSWAHL. Ersetzt Venn-Diagramm und Rangtabelle (alte Folien 5 und 6): ein Filter in drei Stufen. Spalte für Spalte fällt weg, wer die Schwelle verfehlt. "
-        "Marktanteil ist kein Auswahlkriterium mehr (niedriger Anteil kann auch Schwäche heißen), sondern die Chance aus Folie 3. Handwerk scheitert nur an der Combined Ratio.", chapter="Auswahl")
+        "Marktanteil ist kein Auswahlkriterium mehr (niedriger Anteil kann auch Schwäche heißen), sondern die Chance aus Folie 3. Handwerk scheitert nur an der Combined Ratio.", chapter="1 · Markt", chapter_icon="chart-line-up")
 order = [0, 1, 2, 3, 4, 5, 6, 7]
 cols_ = [("Segment", None, 2.4), ("Wachstum p. a.", f"über Markt ({pct(Mo.mkt_g * 100)})", 2.75), ("Beratungsbedarf", "mindestens 60 % der Kunden", 2.75),
          ("Combined Ratio", "unter 95 %", 2.75), ("", None, 1.48)]
@@ -138,59 +137,50 @@ for r_, i in enumerate(order):
         D.text(cx, y, 1.0, 0.38, vals[k](i), 14, M if ok else L, DB if ok else GREY, "l", "m")
         if ok: D.icon("check-circle", cx + 1.15, y + 0.19, 0.24, disc_=False)
         else: D.text(cx + 1.0, y, 1.6, 0.38, "verfehlt", 12, M, GREY, "l", "m")
-    D.text(xs[4], y, 1.5, 0.38, "im Fokus" if foc else "", 13, M, ZB, "l", "m")
     if r_ < 7: D.rule(X0, y + 0.385, W, "E3EAF2")
 E.statement(f"Handwerk verfehlt nur die Combined Ratio ({pct(Mo.cr[3])}): ein Kandidat für später, wenn die Schadenquote sinkt.", y=6.38, size=16)
 E.footer("Anmerkung: Beispieldaten, fiktiv; Schwellen sind Vorschläge zur Bestätigung durch den Vorstand. Quelle: Marktstudie 2026; Kundenbefragung 2026 (n = 1.200); Schadenstatistik 2023 bis 2025")
 
 # ================= 5 Kunde ==================================================================================
-E.slide(f"In den Fokus-Segmenten schließen {Mo.R_FOK[0]}{NB}% der Kunden wegen der Beratung ab, nur {Mo.R_FOK[2]}{NB}% wegen des Preises",
-        "ARGUMENT 2 (Kunde). Links: Wer ist der Kunde, was braucht er, was bieten wir (Persona aus einem Fokus-Segment, nicht aus Handwerk wie in der alten Folie 7). "
-        "Rechts: Beleg, wie sich die Kaufgründe zwischen Fokus und übrigen Segmenten unterscheiden (Hantel-Diagramm statt dritter Wiederholung des Beratungsbedarfs).", chapter="Kunde")
-LW = 5.75
-D.icon("truck", X0 + 0.55, 2.1, 1.0)
-D.text(X0 + 1.3, 1.68, LW - 1.3, 0.32, "Sandra K., Geschäftsführerin Spedition", 16, M, DB)
-D.text(X0 + 1.3, 2.02, LW - 1.3, 0.26, "120 Beschäftigte, 60 Lkw  ·  Beispielprofil, fiktiv", 12, L, DB)
-D.icon("quotes", X0 + 1.42, 2.55, 0.28, disc_=False)
-D.text(X0 + 1.65, 2.4, LW - 1.65, 0.7, "Ich brauche jemanden, der Flotte, Lager und Cyber-Risiken zusammen versteht und im Schaden sofort da ist.", 14, L, ZB)
-E.kicker(X0, 3.35, 2.6, "Sie braucht", DB); E.kicker(X0 + 3.1, 3.35, 2.65, "Wir bieten", ZB)
-needs = [("users-three", "eine Ansprechperson für alle Risiken", "festen Gewerbe-Berater je Kunde"),
-         ("timer", "schnelle Hilfe im Schaden", "Regulierung in 48 Stunden"),
-         ("puzzle-piece", "Verständnis für ihr Geschäft", "Branchenpakete für Logistik, Cyber, Gesundheit")]
-for k, (ic, need, offer) in enumerate(needs):
-    y = 3.7 + k * 0.72
-    D.rule(X0, y - 0.06, LW, "E3EAF2")
-    D.icon(ic, X0 + 0.2, y + 0.27, 0.36, disc_=False)
-    D.text(X0 + 0.5, y, 2.3, 0.6, need, 13, L, DB, "l", "m")
-    D.text(X0 + 2.83, y, 0.3, 0.6, "→", 14, M, ZB, "l", "m")
-    D.text(X0 + 3.1, y, 2.65, 0.6, offer, 13, M, DB, "l", "m")
-# rechts: Hantel-Diagramm
-RX = X0 + LW + 0.6; RW = R - RX
-D.vrule(RX - 0.3, 1.7, 4.2, "E3EAF2")
-E.kicker(RX, 1.68, RW, "Hauptgrund für den Abschluss, % der Kunden", DB)
-D.disc(RX + 0.08, 2.1, 0.16, ZB); D.text(RX + 0.22, 1.97, 1.8, 0.26, "Fokus-Segmente", 12, M, DB)
-D.disc(RX + 2.0, 2.1, 0.16, LB); D.text(RX + 2.14, 1.97, 1.6, 0.26, "übrige fünf", 12, L, DB)
-lab_w = 1.75; sx = RX + lab_w; sw = RW - lab_w - 0.25
+E.slide(f"Fokus-Kunden kaufen vor allem Beratung, und bei Beratung sind wir laut Vermittlern Zweitbester von {len(Mo.VERM)}",
+        "ARGUMENT 2 (Kunde). Zwei Belege für zwei Teilaussagen: links, was Kunden in den Fokus-Segmenten kaufen (Hantel: Fokus gegen übrige); "
+        "rechts, ob wir das können (Vermittler-Empfehlung, 14 Versicherer). Zusammen ergibt das unser Recht zu gewinnen. Die Persona steht im Anhang.",
+        chapter="2 · Kunde", chapter_icon="handshake")
+LW = 6.2
+E.kicker(X0, 1.68, LW, "Hauptgrund für den Abschluss, % der Kunden", DB)
+D.disc(X0 + 0.08, 2.1, 0.16, ZB); D.text(X0 + 0.22, 1.97, 1.8, 0.26, "Fokus-Segmente", 12, M, DB)
+D.disc(X0 + 2.0, 2.1, 0.16, LB); D.text(X0 + 2.14, 1.97, 1.6, 0.26, "übrige fünf", 12, L, DB)
+lab_w = 1.8; sx = X0 + lab_w; sw = LW - lab_w - 0.7
 X = lambda v: sx + sw * v / 45
 for k, (rs, a, b) in enumerate(zip(Mo.REASONS, Mo.R_FOK, Mo.R_REST)):
-    y = 2.75 + k * 0.92
-    D.text(RX, y - 0.15, lab_w - 0.1, 0.3, rs, 13, M if k in (0, 2) else L, DB, "l", "m")
+    y = 2.85 + k * 0.92
+    D.text(X0, y - 0.15, lab_w - 0.1, 0.3, rs, 13, M if k in (0, 2) else L, DB, "l", "m")
     D.rule(sx, y, sw, "EEF1F4", 0.01)
     D.rule(min(X(a), X(b)), y - 0.012, abs(X(a) - X(b)), MB, 0.03)
     D.disc(X(b), y, 0.2, LB); D.disc(X(a), y, 0.24, ZB)
-    up = a >= b
     D.text(X(a) - 0.4, y - 0.42, 0.8, 0.24, f"{a}{NB}%", 12, M, ZB, "c")
     D.text(X(b) - 0.4, y + 0.16, 0.8, 0.24, f"{b}{NB}%", 11, L, DB, "c")
     if k in (0, 2):
         dd = a - b
         D.text(max(X(a), X(b)) + 0.18, y - 0.13, 1.0, 0.26, f"{'+' if dd > 0 else '−'}{abs(dd)} Pp", 12, M, ZB if dd > 0 else DB)
-E.statement("Beratung ist unsere Stärke: Vermittler sehen uns dort auf Platz 2 von 14 Versicherern.", y=6.42, size=16)
-E.footer("Anmerkung: Beispieldaten, fiktiv; ein Hauptgrund je Kunde; Persona und Zitat sind Beispiele. Quelle: Kundenbefragung 2026 (n = 1.200); Vermittlerbefragung 2026 (n = 412)")
+RX = X0 + LW + 0.45; RW = R - RX
+D.vrule(RX - 0.25, 1.7, 4.3, "E3EAF2")
+E.kicker(RX, 1.68, RW, "Vermittler, die uns für Gewerbeberatung empfehlen, %", DB)
+D.text(RX, 1.95, RW, 0.24, "14 Versicherer, anonymisiert", 11, L, DB)
+rh_ = 0.272; bx = RX + 0.85; bwid = RW - 1.45
+for k, (nm, v) in enumerate(Mo.VERM):
+    y = 2.3 + k * rh_; us = nm == "Zurich"
+    D.text(RX, y, 0.8, rh_, nm, 12 if us else 11, M if us else L, DB, "l", "m")
+    D.shape(S.RECTANGLE, bx, y + 0.05, bwid * v / 65, rh_ - 0.1, fill=ZB if us else LB, name=f"Vermittler {nm}")
+    D.text(bx + bwid * v / 65 + 0.06, y, 0.6, rh_, f"{v}", 12 if us else 11, M if us else L, DB, "l", "m")
+D.text(bx + bwid * 57 / 65 + 0.45, 2.3 + rh_ - 0.01, 1.2, rh_, f"Platz {Mo.VERM_RANK}", 12, M, ZB, "l", "m")
+E.statement("Was Kunden dort kaufen, ist unsere Stärke. Darum gewinnen wir dort leichter Anteil als in Preissegmenten.", y=6.42, size=16)
+E.footer("Anmerkung: Beispieldaten, fiktiv; ein Hauptgrund je Kunde; Wettbewerber anonymisiert. Quelle: Kundenbefragung 2026 (n = 1.200); Vermittlerbefragung 2026 (n = 412)")
 
 # ================= 6 Beitrag =================================================================================
 E.slide(f"Ohne Fokus wachsen wir langsamer als der Markt, mit Fokus kommen 2029 {mio(Mo.B_plus)} Beitrag dazu",
         f"ARGUMENT 3 (Ertrag), Umsatzseite. Brücke von 1.556 auf 2.148 Mio. € mit voller Achse (alte Folie 9 hatte eine abgeschnittene Achse). "
-        f"Gestrichelt: so viel hätten wir, wenn wir mit dem Markt wüchsen (+{pct(Mo.mkt_g * 100)} p. a.). Ohne Fokus liegen wir darunter (Anteilsverlust), mit Fokus darüber.", chapter="Ertrag")
+        f"Gestrichelt: so viel hätten wir, wenn wir mit dem Markt wüchsen (+{pct(Mo.mkt_g * 100)} p. a.). Ohne Fokus liegen wir darunter (Anteilsverlust), mit Fokus darüber.", chapter="3 · Ertrag", chapter_icon="coins")
 E.kicker(X0, 1.6, W, "Beitrag in Mio. € (Bruttoprämie Gewerbe)", DB)
 bars = [("Beitrag 2026", 0, Mo.B26, "total"), ("Marktwachstum\nbei gleichem Anteil", Mo.B26, Mo.B29_ohne, "delta"),
         ("2029 ohne Fokus", 0, Mo.B29_ohne, "total"), ("Anteilsgewinn\nFokus (+1,5 Pp)", Mo.B29_ohne, Mo.B29_mit, "deltaF"), ("2029 mit Fokus", 0, Mo.B29_mit, "totalF")]
@@ -224,7 +214,7 @@ E.footer(f"Anmerkung: Beispieldaten, fiktiv; ohne Fokus: Anteile je Segment kons
 # ================= 7 Ergebnis ================================================================================
 E.slide(f"Der Fokus ist im Basisfall {Mo.PB_BASE} zurückverdient, im vorsichtigen Fall {Mo.PB_CAUT}",
         f"ARGUMENT 3 (Ertrag), Ergebnisseite. Kumuliertes Mehrergebnis nach Investition, nur dem Fokus zugerechnet: zusätzlicher Beitrag × (1 − Combined Ratio der Fokus-Segmente "
-        f"{pct(Mo.cr_f)}). Keine Verwaltungskosten-Effekte eingerechnet (die waren in der alten Fassung nicht dem Fokus zuzuordnen). Vorsichtig: +1,0 Pp, Marge 5 %.", chapter="Ertrag")
+        f"{pct(Mo.cr_f)}). Keine Verwaltungskosten-Effekte eingerechnet (die waren in der alten Fassung nicht dem Fokus zuzuordnen). Vorsichtig: +1,0 Pp, Marge 5 %.", chapter="3 · Ertrag", chapter_icon="coins")
 E.kicker(X0, 1.6, W, "Kumuliertes Mehrergebnis nach Investition, Mio. €", DB)
 yrs = [str(r["year"]) for r in Mo.BASE]
 cb = [r["cum"] for r in Mo.BASE]; cc = [r["cum"] for r in Mo.CAUT]
@@ -254,7 +244,7 @@ E.footer("Anmerkung: Beispieldaten, fiktiv; Mehrergebnis = zusätzlicher Beitrag
 # ================= 8 Risiken ===================================================================================
 E.slide(f"Keines der vier Hauptrisiken verschiebt die Amortisation über {max(Mo.RISK_PB)} hinaus, jedes zeigt sich vor der nächsten Stufe",
         "RISIKEN. Jedes Risiko einzeln im Modell gerechnet (übrige Annahmen wie Basisfall). Rechts die Wirkung auf das Amortisationsjahr als Punktdiagramm: Basisfall 2031 gestrichelt. "
-        "Die Spalte Frühindikator zeigt, an welchem Entscheidungspunkt wir das Risiko sehen, bevor die nächste Tranche fließt.", chapter="Risiken")
+        "Die Spalte Frühindikator zeigt, an welchem Entscheidungspunkt wir das Risiko sehen, bevor die nächste Tranche fließt.", chapter="3 · Ertrag", chapter_icon="coins")
 cols_r = [("Risiko", 3.3), ("Gegenmaßnahme", 3.25), ("Frühindikator", 2.5), ("Amortisation", 3.08)]
 xr = [X0]; [xr.append(xr[-1] + c[1]) for c in cols_r[:-1]]
 for j, (h_, w) in enumerate(cols_r):
@@ -292,7 +282,7 @@ E.footer("Anmerkung: Beispieldaten, fiktiv; jedes Risiko einzeln gerechnet, übr
 # ================= 8 Umsetzung ===============================================================================
 E.slide("Bis zum Pilotergebnis stehen nur 10 Mio. € im Risiko, jede weitere Stufe braucht eine Freigabe",
         "UMSETZUNG. Treppe = Geld, das zu jedem Zeitpunkt höchstens im Risiko steht. Rauten = Entscheidungspunkte am Ende einer Stufe, mit messbarem Kriterium. "
-        "Scheitert ein Entscheidungspunkt, stoppen wir nach 10 oder 50 statt 80 Mio. €.", chapter="Umsetzung")
+        "Scheitert ein Entscheidungspunkt, stoppen wir nach 10 oder 50 statt 80 Mio. €.", chapter="Umsetzung", chapter_icon="steps")
 q0, qw = X0 + 0.1, (W - 0.2) / 12
 spans = [(0, 4), (4, 8), (8, 12)]
 base, hmax = 5.0, 2.45
@@ -326,7 +316,7 @@ E.slide("Wir bitten heute um drei Beschlüsse, damit der Pilot in Cyber im Febru
 E.blue_band(3.0, 1.9)
 asks = [("hand-coins", "Beschluss 1", "10 Mio. €", "sofort freigeben", "für den Pilot in Cyber, Februar bis Oktober 2027"),
         ("seal-check", "Beschluss 2", "80 Mio. €", "als Rahmen zusagen", "weitere 70 Mio. € nur nach bestandenen Entscheidungspunkten"),
-        ("users-three", "Beschluss 3", "2", "Entscheider benennen", "für die zwei Entscheidungspunkte: CFO, Leitung Gewerbe, Leitung Vertrieb")]
+        ("flag-banner", "Beschluss 3", "2 Schwellen", "für den Abbruch festlegen", "Anteil im Pilot mindestens +0,5 Pp, Combined Ratio im Neugeschäft unter 95 %; Lenkungskreis entscheidet")]
 cw_ = (W - 0.7) / 3
 for i, (ic, lab, big_, head_, d_) in enumerate(asks):
     x = X0 + i * (cw_ + 0.35)
@@ -340,6 +330,28 @@ for i, (ic, lab, big_, head_, d_) in enumerate(asks):
 D.icon("calendar-check", X0 + 0.2, 6.2, 0.36, disc_=False)
 D.text(X0 + 0.5, 6.05, W, 0.3, "Nächster Bericht an den Vorstand: November 2027, nach Entscheidungspunkt 1.", 15, M, DB)
 E.footer("Anmerkung: Beispieldaten, fiktiv; Namen und Termine sind Vorschläge. Stufen und Entscheidungspunkte: Folie 9")
+
+# ================= Anhang: Persona ==========================================================================
+E.slide("Eine typische Fokus-Kundin sucht eine Ansprechperson, schnelle Hilfe und Branchenwissen",
+        "ANHANG: Persona zur Veranschaulichung von Folie 5. Beispielprofil, keine Befragungsergebnisse.", chapter="Anhang")
+LW = W
+D.icon("truck", X0 + 0.55, 2.1, 1.0)
+D.text(X0 + 1.3, 1.68, LW - 1.3, 0.32, "Sandra K., Geschäftsführerin Spedition", 16, M, DB)
+D.text(X0 + 1.3, 2.02, LW - 1.3, 0.26, "120 Beschäftigte, 60 Lkw  ·  Beispielprofil, fiktiv", 12, L, DB)
+D.icon("quotes", X0 + 1.42, 2.55, 0.28, disc_=False)
+D.text(X0 + 1.65, 2.4, 9.0, 0.7, "Ich brauche jemanden, der Flotte, Lager und Cyber-Risiken zusammen versteht und im Schaden sofort da ist.", 14, L, ZB)
+E.kicker(X0, 3.35, 2.6, "Sie braucht", DB); E.kicker(X0 + 5.6, 3.35, 4.0, "Wir bieten", ZB)
+needs = [("users-three", "eine Ansprechperson für alle Risiken", "festen Gewerbe-Berater je Kunde"),
+         ("timer", "schnelle Hilfe im Schaden", "Regulierung in 48 Stunden"),
+         ("puzzle-piece", "Verständnis für ihr Geschäft", "Branchenpakete für Logistik, Cyber, Gesundheit")]
+for k, (ic, need, offer) in enumerate(needs):
+    y = 3.7 + k * 0.72
+    D.rule(X0, y - 0.06, LW, "E3EAF2")
+    D.icon(ic, X0 + 0.2, y + 0.27, 0.36, disc_=False)
+    D.text(X0 + 0.5, y, 4.6, 0.6, need, 15, L, DB, "l", "m")
+    D.text(X0 + 5.2, y, 0.3, 0.6, "→", 16, M, ZB, "l", "m")
+    D.text(X0 + 5.6, y, 6.4, 0.6, offer, 15, M, DB, "l", "m")
+E.footer("Anmerkung: Persona und Zitat sind Beispiele, keine Befragungsergebnisse. Quelle: eigene Darstellung")
 
 # ================= 10 Anhang: Segmentdaten =====================================================================
 E.slide("Cyber wächst am schnellsten (19 % pro Jahr), dort ist unser Anteil mit 1,2 % am niedrigsten",
