@@ -44,15 +44,15 @@ D.text(X0 + 0.3, 5.65, 9, 0.35, "10. November 2026  ·  Beispieldaten, fiktiv", 
 E.slide(f"Wir setzen 80 Mio. € auf drei Wachstumssegmente, in denen Beratung zählt, zurückverdient {Mo.PB_BASE}",
         "ANTWORT ZUERST. Situation: Der Gewerbemarkt wächst bis 2029 von 49,5 auf 60,7 Mrd. €. Komplikation: 58 % des Zuwachses liegen in drei Segmenten, "
         "in denen unser Anteil am kleinsten ist; ohne Kurswechsel wachsen wir langsamer als der Markt. Frage: Lohnt sich ein gezielter Einsatz? "
-        "Antwort: ja, drei Gründe (Markt, Kunde, Ertrag), jede Karte mit ihrem Vergleich als Beleg. Details Folie 3 bis 8.", title_w=10.3)
+        "Antwort: ja, drei Gründe (Markt, Kunde, Ertrag), jede Karte mit ihrem Vergleich als Beleg. Details Folie 3 bis 9.", title_w=10.3)
 E.blue_band(2.75, 2.0)
 cw = (W - 2 * 0.35) / 3
 cards = [("chart-line-up", "1 · Markt", "Der Markt wächst dort,\nwo wir klein sind", pct(Mo.F_dz_share * 100, 0), "des Marktzuwachses bis 2029\nliegen in drei Segmenten",
           "UNSER ANTEIL 2026", [("Fokus", Mo.F_sh, ZB, pct(Mo.F_sh)), ("übrige", Mo.R_sh, LB, pct(Mo.R_sh))], 3.6),
-         ("handshake", "2 · Kunde", "Dort kaufen Kunden\nBeratung, nicht den Preis", f"{Mo.R_FOK[0]}{NB}%", "nennen Beratung als\nHauptgrund für den Abschluss",
+         ("handshake", "2 · Kunde", "Dort zählt Beratung\nmehr als der Preis", f"{Mo.R_FOK[0]}{NB}%", "nennen Beratung als\nHauptgrund für den Abschluss",
           "HAUPTGRUND, FOKUS-SEGMENTE", [("Beratung", Mo.R_FOK[0], ZB, f"{Mo.R_FOK[0]}{NB}%"), ("Preis", Mo.R_FOK[2], LB, f"{Mo.R_FOK[2]}{NB}%")], 41),
-         ("coins", "3 · Ertrag", "Der Einsatz kommt\nzurück", str(Mo.PB_BASE), f"zurückverdient im Basisfall,\nim vorsichtigen Fall {Mo.PB_CAUT}",
-          "BEITRAG 2029, MIO. €", [("mit Fokus", Mo.B29_mit, ZB, de(Mo.B29_mit, 0)), ("ohne", Mo.B29_ohne, LB, de(Mo.B29_ohne, 0))], Mo.B29_mit)]
+         ("coins", "3 · Ertrag", "Der Einsatz ist früh\nzurückverdient", str(Mo.PB_BASE), f"Amortisation im Basisfall,\nim vorsichtigen Fall {Mo.PB_CAUT}",
+          "KUMULIERT BIS 2035, MIO. €", [("Basisfall", Mo.BASE[-1]["cum"], ZB, "+" + de(Mo.BASE[-1]["cum"], 0)), ("vorsichtig", Mo.CAUT[-1]["cum"], LB, "+" + de(Mo.CAUT[-1]["cum"], 0))], Mo.BASE[-1]["cum"])]
 for i, (ic, lab, claim, num, cap, ctitle, rows, vmax) in enumerate(cards):
     x = X0 + i * (cw + 0.35)
     E.white_card(x, 1.75, cw, 4.15)
@@ -63,7 +63,7 @@ for i, (ic, lab, claim, num, cap, ctitle, rows, vmax) in enumerate(cards):
     D.text(x + 0.35, 4.12, cw - 0.6, 0.5, cap, 12, L, DB)
     pair(x + 0.35, 4.82, cw - 0.6, ctitle, rows, vmax, lab_w=1.0)
 E.statement("Wir bitten um 80 Mio. € in drei Stufen und 10 Mio. € sofort für den Pilot in Cyber.", y=6.38, size=17)
-E.footer("Beispieldaten, fiktiv. Fokus = Cyber, Gesundheit, Logistik. Marktstudie 2026; Kundenbefragung (n = 1.200); Szenariomodell.")
+E.footer("Anmerkung: Beispieldaten, fiktiv; Fokus = Cyber, Gesundheit, Logistik. Quelle: Marktstudie 2026; Kundenbefragung 2026 (n = 1.200); Szenariomodell")
 
 # ================= 3 Markt: Mekko ==========================================================================
 E.slide(f"{pct(Mo.F_dz_share * 100, 0)} des Marktzuwachses liegen in drei Segmenten, in denen unser Anteil am niedrigsten ist",
@@ -97,8 +97,13 @@ bx0, bx1 = fx[0][0] + 0.02, fx[2][0] + fx[2][1] - 0.02
 E_br = 2.6
 D.rule(bx0, E_br, bx1 - bx0, ZB, 0.025); D.shape(S.RECTANGLE, bx0, E_br, 0.025, 0.14, fill=ZB); D.shape(S.RECTANGLE, bx1 - 0.025, E_br, 0.025, 0.14, fill=ZB)
 D.text(bx0, E_br - 0.42, bx1 - bx0, 0.34, f"{pct(Mo.F_dz_share * 100, 0)} des Zuwachses ({de(Mo.dz[Mo.FOKUS].sum())} Mrd. €), unser Anteil dort {pct(Mo.F_sh)}", 15, M, ZB, "c")
+yF = base - Mo.F_sh * sc
+xg = fx[2][0] + fx[2][1] + 0.12
+D.vrule(xg, ya, yF - ya, DB, 0.025)
+D.shape(S.RECTANGLE, xg - 0.06, ya, 0.14, 0.02, fill=DB); D.shape(S.RECTANGLE, xg - 0.06, yF - 0.02, 0.14, 0.02, fill=DB)
+D.text(xg - 4.6, ya + 0.06, 4.5, 0.28, f"Lücke {de(Mo.GAP_PP)} Pp = {mio(Mo.PRIZE)} Beitrag pro Jahr ab 2029", 13, M, DB, "r")
 E.statement(f"Ohne Kurswechsel sinkt unser Gesamtanteil bis 2029 von {pct(Mo.share26)} auf {pct(Mo.share29_ohne)}.", y=6.38, size=16)
-E.footer(f"Beispieldaten, fiktiv. Marktstudie 2026, Bruttoprämie Gewerbe. Übrige drei = Industrie, Handel, Gastro (zusammen +{de(Mo.dz[idx_r].sum())} Mrd. €).")
+E.footer(f"Anmerkung: Beispieldaten, fiktiv; übrige drei = Industrie, Handel, Gastro; Lücke bewertet am Fokusmarkt 2029 ({de(Mo.m29[Mo.FOKUS].sum())} Mrd. €). Quelle: Marktstudie 2026, Bruttoprämie Gewerbe")
 
 # ================= 4 Auswahl: Filter =======================================================================
 E.slide("Von acht Segmenten erfüllen nur Cyber, Gesundheit und Logistik alle drei Kriterien",
@@ -136,7 +141,7 @@ for r_, i in enumerate(order):
     D.text(xs[4], y, 1.5, 0.38, "im Fokus" if foc else "", 13, M, ZB, "l", "m")
     if r_ < 7: D.rule(X0, y + 0.385, W, "E3EAF2")
 E.statement(f"Handwerk verfehlt nur die Combined Ratio ({pct(Mo.cr[3])}): ein Kandidat für später, wenn die Schadenquote sinkt.", y=6.38, size=16)
-E.footer("Beispieldaten, fiktiv. Marktstudie 2026; Kundenbefragung (n = 1.200); eigene Schadenstatistik 2023 bis 2025. Schwellen sind Vorschläge zur Bestätigung.")
+E.footer("Anmerkung: Beispieldaten, fiktiv; Schwellen sind Vorschläge zur Bestätigung durch den Vorstand. Quelle: Marktstudie 2026; Kundenbefragung 2026 (n = 1.200); Schadenstatistik 2023 bis 2025")
 
 # ================= 5 Kunde ==================================================================================
 E.slide(f"In den Fokus-Segmenten schließen {Mo.R_FOK[0]}{NB}% der Kunden wegen der Beratung ab, nur {Mo.R_FOK[2]}{NB}% wegen des Preises",
@@ -180,7 +185,7 @@ for k, (rs, a, b) in enumerate(zip(Mo.REASONS, Mo.R_FOK, Mo.R_REST)):
         dd = a - b
         D.text(max(X(a), X(b)) + 0.18, y - 0.13, 1.0, 0.26, f"{'+' if dd > 0 else '−'}{abs(dd)} Pp", 12, M, ZB if dd > 0 else DB)
 E.statement("Beratung ist unsere Stärke: Vermittler sehen uns dort auf Platz 2 von 14 Versicherern.", y=6.42, size=16)
-E.footer("Beispieldaten, fiktiv. Kundenbefragung 2026 (n = 1.200, ein Hauptgrund je Kunde); Vermittlerbefragung (n = 412). Persona und Zitat sind Beispiele.")
+E.footer("Anmerkung: Beispieldaten, fiktiv; ein Hauptgrund je Kunde; Persona und Zitat sind Beispiele. Quelle: Kundenbefragung 2026 (n = 1.200); Vermittlerbefragung 2026 (n = 412)")
 
 # ================= 6 Beitrag =================================================================================
 E.slide(f"Ohne Fokus wachsen wir langsamer als der Markt, mit Fokus kommen 2029 {mio(Mo.B_plus)} Beitrag dazu",
@@ -197,20 +202,24 @@ for k, (nm, a, b, kind) in enumerate(bars):
     col = {"total": LB, "delta": LB, "deltaF": ZB, "totalF": ZB}[kind]
     D.shape(S.RECTANGLE, bxs[k], Yv(b), bw, Yv(a) - Yv(b), fill=col, alpha=None if kind != "delta" else 60, name=nm.replace("\n", " "))
     lbl = de(b, 0) if kind.startswith("total") else f"+{de(b - a, 0)}"
-    D.text(bxs[k] - 0.2, Yv(b) - 0.42, bw + 0.4, 0.36, lbl, 22 if kind.startswith("total") else 18, O, ZB if "F" in kind else DB, "c")
+    ly_ = Yv(b) - 0.42 if k != 2 else Yv(Mo.B29_markt) - 0.45
+    D.text(bxs[k] - 0.2, ly_, bw + 0.4, 0.36, lbl, 22 if kind.startswith("total") else 18, O, ZB if "F" in kind else DB, "c")
     D.text(bxs[k] - 0.25, base + 0.08, bw + 0.5, 0.5, nm, 12, M if "F" in kind else L, DB, "c")
     if k < 4:
         nxt = b if kind != "total" else b
         D.rule(bxs[k] + bw, Yv(b), gap, GREY, 0.01)
 D.rule(X0, base, W, DB, 0.014)
 ym = Yv(Mo.B29_markt)
-D.dash(bxs[2] + bw, ym, bxs[4], ym, DB, 1.5)
-D.text(bxs[2] + bw, ym + 0.06, gap, 0.5, f"mit dem\nMarkt: {de(Mo.B29_markt, 0)}", 11, M, DB, "c")
-D.text(bxs[2], Yv(Mo.B29_ohne) + 0.08, bw, 0.5, f"+{pct(Mo.g_ohne * 100)} p. a.\nAnteil {pct(Mo.share29_ohne)}", 12, M, DB, "c")
+D.dash(bxs[2] - 0.08, ym, bxs[2] + bw + 0.08, ym, DB, 1.5)
+xq = bxs[2] + bw + 0.14
+D.vrule(xq, ym, Yv(Mo.B29_ohne) - ym, DB, 0.025)
+D.shape(S.RECTANGLE, xq - 0.06, ym, 0.14, 0.02, fill=DB); D.shape(S.RECTANGLE, xq - 0.06, Yv(Mo.B29_ohne) - 0.02, 0.14, 0.02, fill=DB)
+D.text(xq + 0.1, Yv(Mo.B29_ohne) + 0.08, gap - 0.15, 0.75, f"−{de(Mo.B29_markt - Mo.B29_ohne, 0)} zum\nMarkt\n({de(Mo.B29_markt, 0)})", 11, M, DB)
+D.text(bxs[2], Yv(Mo.B29_ohne) + 0.12, bw, 0.5, f"+{pct(Mo.g_ohne * 100)} p. a.\nAnteil {pct(Mo.share29_ohne)}", 12, M, DB, "c")
 D.text(bxs[4], Yv(Mo.B29_mit) + 0.08, bw, 0.5, f"+{pct(Mo.g_mit * 100)} p. a.\nAnteil {pct(Mo.share29_mit)}", 12, M, WHITE, "c")
 D.text(bxs[0], Yv(Mo.B26) + 0.08, bw, 0.3, f"Anteil {pct(Mo.share26)}", 12, M, DB, "c")
 E.statement(f"Ohne Fokus fehlen 2029 {mio(Mo.B29_markt - Mo.B29_ohne)} zum Marktwachstum, mit Fokus liegen wir {mio(Mo.B29_mit - Mo.B29_markt)} darüber.", y=6.42, size=16)
-E.footer(f"Beispieldaten, fiktiv. Markt +{pct(Mo.mkt_g * 100)} p. a. (Marktstudie 2026); ohne Fokus: Anteile je Segment konstant; mit Fokus: +1,5 Pp in Cyber, Gesundheit, Logistik bis 2029.")
+E.footer(f"Anmerkung: Beispieldaten, fiktiv; ohne Fokus: Anteile je Segment konstant; mit Fokus: +1,5 Pp in den drei Segmenten; gestrichelt: Wachstum mit dem Markt (+{pct(Mo.mkt_g * 100)} p. a.). Quelle: Marktstudie 2026; Szenariomodell")
 
 # ================= 7 Ergebnis ================================================================================
 E.slide(f"Der Fokus ist im Basisfall {Mo.PB_BASE} zurückverdient, im vorsichtigen Fall {Mo.PB_CAUT}",
@@ -240,7 +249,45 @@ D.text(lx, Y(cc[-1]) - 0.25, 1.6, 0.3, f"+{de(cc[-1], 0)}", 18, M, DB); D.text(l
 D.rule(X0, 6.25, 0.35, ZB, 0.05); D.text(X0 + 0.45, 6.12, 5.6, 0.28, f"Basisfall: +1,5 Pp Anteil, Marge {pct(100 - Mo.cr_f)} (Combined Ratio {pct(Mo.cr_f)})", 13, M, DB)
 D.rule(X0 + 6.3, 6.25, 0.35, MB, 0.035); D.text(X0 + 6.75, 6.12, 5.4, 0.28, "Vorsichtig: +1,0 Pp Anteil, Marge 5,0 %", 13, L, DB)
 D.text(X0, 6.45, W, 0.28, f"Am Tiefpunkt 2029 sind netto {de(-Mo.TROUGH)} Mio. € gebunden; ab 2029 bringt der Fokus im Basisfall rund {mio(Mo.RES29)} Mehrergebnis pro Jahr.", 13, L, DB)
-E.footer("Beispieldaten, fiktiv. Mehrergebnis = zusätzlicher Beitrag × (1 − Combined Ratio); Investition 10 / 40 / 30 Mio. € (2027 / 2028 / 2029); Hochlauf 20 / 55 / 100 %; Märkte ab 2033 konstant.")
+E.footer("Anmerkung: Beispieldaten, fiktiv; Mehrergebnis = zusätzlicher Beitrag × (1 − Combined Ratio); Einsatz 10 / 40 / 30 Mio. € (2027 bis 2029); Hochlauf 20 / 55 / 100 %; Märkte ab 2033 konstant. Quelle: Szenariomodell")
+
+# ================= 8 Risiken ===================================================================================
+E.slide(f"Keines der vier Hauptrisiken verschiebt die Amortisation über {max(Mo.RISK_PB)} hinaus, jedes zeigt sich vor der nächsten Stufe",
+        "RISIKEN. Jedes Risiko einzeln im Modell gerechnet (übrige Annahmen wie Basisfall). Rechts die Wirkung auf das Amortisationsjahr als Punktdiagramm: Basisfall 2031 gestrichelt. "
+        "Die Spalte Frühindikator zeigt, an welchem Entscheidungspunkt wir das Risiko sehen, bevor die nächste Tranche fließt.", chapter="Risiken")
+cols_r = [("Risiko", 3.3), ("Gegenmaßnahme", 3.25), ("Frühindikator", 2.5), ("Amortisation", 3.08)]
+xr = [X0]; [xr.append(xr[-1] + c[1]) for c in cols_r[:-1]]
+for j, (h_, w) in enumerate(cols_r):
+    E.kicker(xr[j] + (0.55 if j == 0 else 0), 1.7, w - 0.2, h_, DB)
+D.rule(X0, 2.02, W, DB, 0.015)
+ax0, ax1, y0, y1 = xr[3] + 0.1, R - 0.15, 2030, 2035
+AX = lambda yv: ax0 + (ax1 - ax0) * (yv - y0) / (y1 - y0)
+icons_r = ["chart-pie-slice", "scales", "users-three", "stack"]
+counter = [("Pilot in einem Segment, Ausweitung nur bei Erfolg", "Anteil im Pilot nach 9 Monaten", "Entscheidungspunkt 1"),
+           ("Tarifierung je Segment, Annahmerichtlinien", "Combined Ratio im Neugeschäft", "Entscheidungspunkt 2"),
+           ("Berater ab Q4 2026 rekrutieren, Vermittler einbinden", "Besetzte Stellen je Quartal", "laufend"),
+           ("Neugeschäft getrennt messen, Provision nur für Neukunden", "Anteil Umdeckungen aus Bestand", "Entscheidungspunkt 1")]
+ry0, rh = 2.12, 0.92
+for k, ((nm, _), pb, (cm, ind, gate)) in enumerate(zip(Mo.RISKS, Mo.RISK_PB, counter)):
+    y = ry0 + k * rh
+    D.icon(icons_r[k], X0 + 0.22, y + 0.42, 0.42)
+    D.text(X0 + 0.55, y + 0.08, cols_r[0][1] - 0.7, 0.7, nm, 14, M, DB, "l", "m")
+    D.text(xr[1], y + 0.08, cols_r[1][1] - 0.25, 0.7, cm, 13, L, DB, "l", "m")
+    D.text(xr[2], y + 0.08, cols_r[2][1] - 0.2, 0.5, ind, 13, L, DB)
+    D.text(xr[2], y + 0.6, cols_r[2][1] - 0.2, 0.24, gate, 11, M, ZB)
+    D.rule(ax0, y + 0.42, ax1 - ax0, "E3EAF2", 0.012)
+    D.rule(AX(Mo.PB_BASE), y + 0.405, AX(pb) - AX(Mo.PB_BASE), MB, 0.035)
+    D.disc(AX(pb), y + 0.42, 0.22, ZB)
+    D.text(AX(pb) + 0.16, y + 0.29, 0.8, 0.26, str(pb), 13, M, DB)
+    D.rule(X0, y + rh - 0.02, W, "E3EAF2")
+yb = ry0 + 4 * rh
+D.dash(AX(Mo.PB_BASE), ry0 + 0.05, AX(Mo.PB_BASE), yb - 0.05, DB, 1.25)
+D.dash(AX(Mo.PB_CAUT), ry0 + 0.05, AX(Mo.PB_CAUT), yb - 0.05, GREY, 1.0)
+for yv in range(y0, y1 + 1): D.text(AX(yv) - 0.3, yb + 0.02, 0.6, 0.22, str(yv), 10, L, DB, "c")
+D.text(AX(Mo.PB_BASE) - 1.0, yb + 0.24, 2.0, 0.22, "Basisfall", 10, M, DB, "c")
+D.text(AX(Mo.PB_CAUT) - 1.0, yb + 0.24, 2.0, 0.22, "alle schlecht", 10, L, GREY, "c")
+E.statement(f"Treten alle Risiken zugleich ein (vorsichtiger Fall), ist der Einsatz {Mo.PB_CAUT} zurückverdient, nicht verloren.", y=6.42, size=16)
+E.footer("Anmerkung: Beispieldaten, fiktiv; jedes Risiko einzeln gerechnet, übrige Annahmen wie Basisfall (Folie 7). Quelle: Szenariomodell")
 
 # ================= 8 Umsetzung ===============================================================================
 E.slide("Bis zum Pilotergebnis stehen nur 10 Mio. € im Risiko, jede weitere Stufe braucht eine Freigabe",
@@ -249,15 +296,15 @@ E.slide("Bis zum Pilotergebnis stehen nur 10 Mio. € im Risiko, jede weitere St
 q0, qw = X0 + 0.1, (W - 0.2) / 12
 spans = [(0, 4), (4, 8), (8, 12)]
 base, hmax = 5.0, 2.45
-gates = [("Entscheidungspunkt 1 · Oktober 2027", "Anteil in Cyber im Pilot um mindestens 0,5 Pp gestiegen?"),
-         ("Entscheidungspunkt 2 · Dezember 2028", "Combined Ratio im Neugeschäft unter 95 %?")]
+gates = [("Entscheidungspunkt 1 · Oktober 2027", "Ist unser Anteil in Cyber im Pilot um mindestens 0,5 Pp gestiegen?"),
+         ("Entscheidungspunkt 2 · Dezember 2028", "Liegt die Combined Ratio im Neugeschäft unter 95 %?")]
 what = ["Branchenpaket Cyber, 25 Gewerbe-Berater, Schadenservice 48 Stunden", "Pakete Gesundheit und Logistik, Vertrieb auf 80 Berater", "Alle drei Segmente im Regelbetrieb, Steuerung auf Jahreswerte"]
 for k, ((a, b), (nm, per, amt)) in enumerate(zip(spans, Mo.STAGES)):
     x1, x2 = q0 + a * qw, q0 + b * qw; hh = hmax * Mo.AT_RISK[k] / 80
     D.shape(S.RECTANGLE, x1, base - hh, x2 - x1 - 0.05, hh, fill=ZB if k == 0 else LB, alpha=None if k == 0 else 75, name=f"Stufe {k + 1}")
-    ty = base - hh - 0.75 if k == 0 else base - hh + 0.06
-    E.big(x1 + 0.12, ty, 3.0, mio(Mo.AT_RISK[k]) if k == 2 else str(Mo.AT_RISK[k]), 22, ZB if k == 0 else DB)
-    D.text(x1 + 0.12, ty + 0.42, 3.2, 0.24, f"+{amt} Mio. € in dieser Stufe", 11, L, DB)
+    ty = base - hh - 0.78 if k == 0 else base - hh + 0.08
+    E.big(x1 + 0.12, ty, 3.2, mio(Mo.AT_RISK[k]), 22, ZB if k == 0 else DB)
+    D.text(x1 + 0.12, ty + 0.44, 3.2, 0.24, f"im Risiko, davon {amt} Mio. € in dieser Stufe", 11, L, DB)
     E.kicker(x1, base + 0.1, x2 - x1, f"Stufe {k + 1}  ·  {per}", ZB)
     D.text(x1, base + 0.36, x2 - x1 - 0.2, 0.3, nm, 14, M, DB)
     D.text(x1, base + 0.66, x2 - x1 - 0.25, 0.5, what[k], 12, L, DB)
@@ -265,17 +312,17 @@ for k, (gh, gq) in enumerate(gates):
     gx = q0 + spans[k][1] * qw - 0.05
     yv = base - hmax * Mo.AT_RISK[k] / 80
     D.shape(S.DIAMOND, gx - 0.17, yv - 0.17, 0.34, 0.34, fill=DB, name=f"Entscheidungspunkt {k + 1}", alt=gq)
-    ty = 1.7 + k * 0.62
-    D.dash(gx, ty + 0.55, gx, yv - 0.2, MB, 0.9)
-    D.text(gx - 4.0, ty, 3.9, 0.26, gh, 12, M, ZB, "r")
-    D.text(gx - 4.0, ty + 0.26, 3.9, 0.3, gq, 13, M, DB, "r")
+    ty = 1.68
+    D.dash(gx, ty + 0.05, gx, yv - 0.2, MB, 0.9)
+    D.text(gx + 0.15, ty, 3.75, 0.26, gh, 12, M, ZB)
+    D.text(gx + 0.15, ty + 0.27, 3.75, 0.55, gq, 13, M, DB)
 D.rule(q0, base, W - 0.2, DB, 0.015)
 E.statement("Scheitert ein Entscheidungspunkt, stoppen wir nach 10 oder 50 Mio. € statt nach 80.", y=6.42, size=16)
-E.footer("Beispieldaten, fiktiv. Stufen 10 / 40 / 30 Mio. €; Kriterien aus Folie 4 (Combined Ratio) und dem Szenariomodell (Anteilsgewinn).")
+E.footer("Anmerkung: Beispieldaten, fiktiv; Stufen 10 / 40 / 30 Mio. €; Kriterien aus Folie 4 (Combined Ratio) und Folie 8 (Anteilsgewinn). Quelle: Szenariomodell")
 
 # ================= 9 Entscheidung =============================================================================
 E.slide("Wir bitten heute um drei Beschlüsse, damit der Pilot in Cyber im Februar 2027 startet",
-        "ENTSCHEIDUNG. Drei Beschlüsse, konsistent mit Folie 2 und 8. Namen und Termine sind Beispiele.")
+        "ENTSCHEIDUNG. Drei Beschlüsse, konsistent mit Folie 2 und 9. Namen und Termine sind Beispiele.")
 E.blue_band(3.0, 1.9)
 asks = [("hand-coins", "Beschluss 1", "10 Mio. €", "sofort freigeben", "für den Pilot in Cyber, Februar bis Oktober 2027"),
         ("seal-check", "Beschluss 2", "80 Mio. €", "als Rahmen zusagen", "weitere 70 Mio. € nur nach bestandenen Entscheidungspunkten"),
@@ -292,7 +339,7 @@ for i, (ic, lab, big_, head_, d_) in enumerate(asks):
     D.text(x + 0.35, 4.38, cw_ - 0.65, 1.2, d_, 14, L, DB)
 D.icon("calendar-check", X0 + 0.2, 6.2, 0.36, disc_=False)
 D.text(X0 + 0.5, 6.05, W, 0.3, "Nächster Bericht an den Vorstand: November 2027, nach Entscheidungspunkt 1.", 15, M, DB)
-E.footer("Beispieldaten, fiktiv. Stufen und Entscheidungspunkte: Folie 8.")
+E.footer("Anmerkung: Beispieldaten, fiktiv; Namen und Termine sind Vorschläge. Stufen und Entscheidungspunkte: Folie 9")
 
 # ================= 10 Anhang: Segmentdaten =====================================================================
 E.slide("Cyber wächst am schnellsten (19 % pro Jahr), dort ist unser Anteil mit 1,2 % am niedrigsten",
@@ -317,7 +364,7 @@ for k, (nm, idx) in enumerate([("Fokus (3)", Mo.FOKUS), ("Übrige (5)", Mo.REST)
     s_ = (Mo.m26[idx] * Mo.sh[idx]).sum() / Mo.m26[idx].sum()
     row = [nm, de(Mo.m26[idx].sum()), de(gg * 100), de(Mo.dz[idx].sum()), de(s_), "", ""]
     for j, v in enumerate(row): D.text(xs[j], yy, cwid[j] - 0.1, 0.4, v, 14, M, DB, "l" if j == 0 else "r", "m")
-E.footer("Beispieldaten, fiktiv. Marktstudie 2026; Kundenbefragung (n = 1.200); Schadenstatistik 2023 bis 2025. Gruppenanteile gewichtet nach Marktvolumen.")
+E.footer("Anmerkung: Beispieldaten, fiktiv; Gruppenanteile gewichtet nach Marktvolumen. Quelle: Marktstudie 2026; Kundenbefragung 2026 (n = 1.200); Schadenstatistik 2023 bis 2025")
 
 # ================= 11 Anhang: Annahmen ==========================================================================
 E.slide("Alle Zahlen folgen aus acht Annahmen, die wir offenlegen", "ANHANG: Methode. Jede Zahl kommt aus modell.py; asserts prüfen die Aussagen vor dem Bauen.", chapter="Anhang")
@@ -336,5 +383,5 @@ for i, (k, v) in enumerate(ass):
     E.big(x, y, 0.6, str(i + 1), 28, ZB)
     D.text(x + 0.6, y + 0.05, W / 2 - 0.9, 0.3, k, 15, M, DB)
     D.text(x + 0.6, y + 0.36, W / 2 - 0.9, 0.6, v, 13, L, DB)
-E.footer("Beispieldaten, fiktiv. Pp = Prozentpunkte.")
+E.footer("Anmerkung: Beispieldaten, fiktiv; Pp = Prozentpunkte. Quelle: modell.py")
 D.save(sys.argv[1])

@@ -22,3 +22,16 @@ Referenz-Deck: `examples/marktfokus_v4/` (F = Folie). Ältere Formen aus v3 blei
 ## Diagrammwahl
 Vergleich → Balken (sortiert) · Zeit → Linie/Fläche · Anteil → 100-%-Balken · Abweichung → Werte gegen Band/Referenz ·
 Beiträge → Waterfall · Zusammenhang zweier Größen → Streu-/Kreisdiagramm · Schwelle → Linie · Robustheit → Raster.
+
+## Ergänzung 2.2 (Referenz-Deck `examples/marktfokus_v5/`, nach Partner-Review)
+| Aufgabe | Archetyp | Aufbau | Beispiel |
+|---|---|---|---|
+| Wo liegt die Chance, wie groß ist sie? | **Mekko + Größe der Chance** | Breite = Zuwachs, Höhe = Anteil, Ø-Linie, Klammer über Fokus, **Lücke zum Durchschnitt in Mio. € beziffert** | v5 F3 |
+| Warum genau diese Segmente? | **Filter in Stufen** | 8 → 5 → 4 → 3 als große Zahlen über den Kriterien; wer ausscheidet, wird grau, „verfehlt“ in Text | v5 F4 |
+| Was will der Kunde? | **Persona + Hantel** | links Persona aus dem Zielsegment, „sie braucht → wir bieten“; rechts Hantel-Diagramm Fokus gegen Rest mit Δ in Pp | v5 F5 |
+| Wachsen wir mit dem Markt? | **Brücke mit Marktreferenz** | volle Achse, Referenz „mit dem Markt“ als gestrichelte Marke mit Klammer an der Säule „ohne Fokus“ | v5 F6 |
+| Wann ist das Geld zurück? | **Amortisationskurve, zwei Fälle** | Basis + vorsichtig, Jahreszahlen groß am Nulldurchgang, Annahmen als Legende unten | v5 F7 |
+| Was kann schiefgehen? | **Risiko-Tabelle mit Punktdiagramm** | Risiko, Gegenmaßnahme, Frühindikator mit Entscheidungspunkt; rechts Wirkung je Risiko auf das Amortisationsjahr | v5 F8 |
+
+Partner-Regeln aus diesem Durchgang: Größe der Chance immer in Euro beziffern; jedes Risiko einzeln rechnen und einem Entscheidungspunkt zuordnen;
+Fußzeile einheitlich „Anmerkung: … Quelle: …“; Einheiten durchgängig gleich („10 Mio. €“, nie „10“ neben „80 Mio. €“).

@@ -45,11 +45,12 @@ RAMP = {2027: 0.2, 2028: 0.55}                                      # Anteil des
 INV = {2027: 10, 2028: 40, 2029: 30}
 cr_f = (m26[FOKUS] * cr[FOKUS]).sum() / m26[FOKUS].sum()
 def fokus_mkt(y): return (m26[FOKUS] * (1 + g[FOKUS]) ** (y - 2026)).sum()
-def case(pp=PP, margin=None):
+def case(pp=PP, margin=None, delay=0, factor=1.0):
     margin = (100 - cr_f) / 100 if margin is None else margin
     rows, cum = [], 0.0
     for y in YEARS:
-        beitrag = fokus_mkt(min(y, 2032)) * pp * RAMP.get(y, 1.0) * 10
+        ramp = 0.0 if y - delay < 2027 else RAMP.get(y - delay, 1.0)
+        beitrag = fokus_mkt(min(y, 2032)) * pp * ramp * 10 * factor
         res = beitrag * margin; cum += res - INV.get(y, 0)
         rows.append(dict(year=y, beitrag=beitrag, res=res, cum=cum))
     return rows
@@ -57,6 +58,18 @@ def payback(rows): return next((r["year"] for r in rows if r["cum"] >= 0), None)
 BASE = case(); CAUT = case(pp=1.0, margin=0.05)
 PB_BASE, PB_CAUT = payback(BASE), payback(CAUT)
 RES29 = BASE[2]["res"]; TROUGH = min(r["cum"] for r in BASE)
+MARGIN = (100 - cr_f) / 100
+
+# ---- Größe der Chance: Lücke unseres Fokus-Anteils zum Durchschnitt, bewertet am Fokusmarkt 2029
+GAP_PP = share26 - F_sh
+PRIZE = GAP_PP * m29[FOKUS].sum() * 10                               # Mio. € Beitrag pro Jahr
+
+# ---- Risiken: Wirkung auf das Amortisationsjahr (Basisfall 2031)
+RISKS = [("Anteilsgewinn nur +1,0 statt +1,5 Pp", case(pp=1.0)),
+         ("Combined Ratio im Neugeschäft 2 Pp schlechter", case(margin=MARGIN - 0.02)),
+         ("Vertrieb startet ein Jahr später", case(delay=1)),
+         ("Ein Fünftel des Mehrbeitrags kommt aus dem eigenen Bestand", case(factor=0.8))]
+RISK_PB = [payback(r) for _, r in RISKS]
 
 # ---- Stufen und Entscheidungspunkte
 STAGES = [("Pilot Cyber", "Feb bis Okt 2027", 10), ("Gesundheit und Logistik", "2028", 40), ("Skalieren", "2029", 30)]
@@ -71,6 +84,7 @@ assert sum(R_FOK) == 100 and sum(R_REST) == 100 and sum(INV.values()) == 80
 assert g_ohne < mkt_g < g_mit and share29_ohne < share26 < share29_mit
 
 if __name__ == "__main__":
+    print("GAP_PP", round(GAP_PP, 2), "PRIZE", round(PRIZE), "RISK_PB", RISK_PB, "margin", round(MARGIN, 4))
     print("Markt 26/29", round(m26.sum(), 1), round(m29.sum(), 2), "Zuwachs", round(dz.sum(), 2), "mkt_g", round(mkt_g * 100, 2))
     print("dz", np.round(dz, 2), "Fokusanteil Zuwachs", round(F_dz_share * 100, 1))
     print("Anteil F/R/ges", round(F_sh, 2), round(R_sh, 2), round(share26, 2), "-> 2029 ohne/mit", round(share29_ohne, 2), round(share29_mit, 2))
